@@ -2,43 +2,87 @@ package project.splash;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import project.spash.gfx.bufferedImageLoader;
+import com.badlogic.gdx.graphics.g2d.*;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+//import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Main extends ApplicationAdapter {
+public class Main extends ApplicationAdapter implements InputProcessor {
 	SpriteBatch batch;
-	Texture img;
-    BufferedImage spriteSheet = null;
+    TextureAtlas textureAtlas;
+    SpriteSheet basketballNet;
+    TextureRegion textureRegion;
+    Sprite bballNet;
+    private BitmapFont font;
+    int currentFrame = 1;
+    int maxFrames = 10;
 	
 	@Override
 	public void create () {
-        bufferedImageLoader loader = new bufferedImageLoader();
-        try{
-            spriteSheet = loader.loadImage("/NetSpriteSheet.png");
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        img = new Texture("badlogic.jpg");
-	}
+        batch = new SpriteBatch();
+        textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/SpriteSheet/NetSpriteSheet.atlas"));
+        textureRegion = textureAtlas.findRegion("Net1");
+        bballNet = new Sprite(textureRegion);
+        bballNet.setPosition(100, 100);
+        //basketballNet = new SpriteSheet (textureAtlas.findRegion("Net1"), 100, 100, 144, 156);
+        Gdx.input.setInputProcessor(this);
+        font = new BitmapFont();
+        font.setColor(Color.BLACK);
+    }
 
-	@Override
+    @Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
-        create();
+        bballNet.draw(batch);
 		batch.end();
 	}
-	
-	@Override
+
+    @Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
 	}
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
 }
