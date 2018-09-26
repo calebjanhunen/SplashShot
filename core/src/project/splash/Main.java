@@ -64,7 +64,6 @@ public class Main extends ApplicationAdapter {
 //		} else dFallSpeed += dGravity;
 	}
 
-
 	@Override
 	public void dispose () {
 		batch.dispose();
