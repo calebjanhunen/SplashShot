@@ -2,18 +2,17 @@ package project.splash;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
 
-//import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 public class Main extends ApplicationAdapter implements InputProcessor {
-	SpriteBatch batch;
+    SpriteBatch batch;
     TextureAtlas textureAtlas;
-    SpriteSheet basketballNet;
     TextureRegion textureRegion;
+    SpriteSheet basketballNet;
     Sprite bballNet;
     private BitmapFont font;
     int currentFrame = 1;
@@ -38,42 +37,47 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
         bballNet.draw(batch);
+
 		batch.end();
 	}
 
     @Override
 	public void dispose () {
 		batch.dispose();
+		textureAtlas.dispose();
 	}
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+	    if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+
+        }
+        return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+	    return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        return false;
+	    return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+	    return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+	    return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+	    return false;
     }
 
     @Override

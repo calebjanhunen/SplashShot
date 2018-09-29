@@ -1,17 +1,17 @@
 package project.splash;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class SpriteSheet extends Sprite {
-    int width, height;
-    TextureRegion textureRegion;
+    String name;
+    TextureAtlas textureAtlas;
 
-    public SpriteSheet (TextureRegion textureRegion, int x, int y, int width, int height){
+    public SpriteSheet (String name, int x, int y, int width, int height){
         setPosition(x, y);
-        this.width = width;
-        this.height = height;
-        this.textureRegion = textureRegion;
+        setSize(width, height);
+        this.name = name;
+
     }
 
 }
