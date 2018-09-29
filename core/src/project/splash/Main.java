@@ -21,7 +21,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 	@Override
 	public void create () {
         batch = new SpriteBatch();
-        textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/SpriteSheet/NetSpriteSheet.atlas"));
+        textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
         textureRegion = textureAtlas.findRegion("Net1");
         bballNet = new Sprite(textureRegion);
         bballNet.setPosition(100, 100);
