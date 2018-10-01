@@ -2,6 +2,7 @@ package project.splash;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,18 +15,19 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     TextureAtlas textureAtlas;
     SpriteSheet basketballNet;
     TextureRegion textureRegion;
-    Sprite bballNet;
+    Sprite arSprNet[] = new Sprite[10];
+    String sNet;
     private BitmapFont font;
-    int currentFrame = 1;
-    int maxFrames = 10;
 	
 	@Override
 	public void create () {
         batch = new SpriteBatch();
-        textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/SpriteSheet/NetSpriteSheet.atlas"));
-        textureRegion = textureAtlas.findRegion("Net1");
-        bballNet = new Sprite(textureRegion);
-        bballNet.setPosition(100, 100);
+        for (int i = 1; i < 11; i++){
+            textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
+            sNet = "Net" + (i);
+            textureRegion = textureAtlas.findRegion(sNet);
+            arSprNet[i-1] = new Sprite (textureRegion);
+        }
         //basketballNet = new SpriteSheet (textureAtlas.findRegion("Net1"), 100, 100, 144, 156);
         Gdx.input.setInputProcessor(this);
         font = new BitmapFont();
@@ -37,7 +39,11 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-        bballNet.draw(batch);
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            for (int i = 1; i < 11; i++) {
+                arSprNet[i - 1].draw(batch);
+            }
+        }
 		batch.end();
 	}
 
