@@ -56,12 +56,8 @@ public class Main extends ApplicationAdapter {
 		if (nBallY <= 100) {
 			bCanJump = true;
 			bCanFall = false;
-     		dFallSpeed = 0;
+			dFallSpeed = 0;
 		}
-
-//	if (nBallY > 100) {    //trying to create energy loss in the ball everytime it touches ground
-//			dFallSpeed *= -1;
-//		} else dFallSpeed += dGravity;
 	}
 
 	@Override
