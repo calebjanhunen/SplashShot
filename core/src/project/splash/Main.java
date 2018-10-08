@@ -14,12 +14,16 @@ public class Main extends ApplicationAdapter {
 	int nBallX = 100, nBallY = 200, nBallWidth = 100, nBallHeight = 100, nCountJump = 0;
 	double dGravity = 0.5, dFallSpeed = 0, dJumpSpeed = 20;
 	boolean bCanFall = true, bCanJump = true;
+//	Vector balllocation, ballvelocity, ballgravity;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		txtball = new Texture("basketball.png");
 		sprBall = new Sprite(txtball);
+//		balllocation = new Vector(300,0);
+//		ballvelocity = new Vector(1,2);
+//		ballgravity = new Vector(0,1);
 	}
 
 	@Override
@@ -29,36 +33,42 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(txtball, nBallX, nBallY, nBallWidth, nBallHeight); //ball
 		batch.end();
-		HandleJumping();
-		HandleFalling();
+
+
+//		HandleJumping();
+//		HandleFalling();
 	}
 
-	public void HandleJumping() {
-		if (bCanJump) {
-			nCountJump++;
-			nBallY += dJumpSpeed;
-			dJumpSpeed -= dGravity;
+//	public void HandleJumping() {
+//		if (bCanJump) {
+//			nCountJump++;
+//			nBallY += dJumpSpeed;
+//			dJumpSpeed -= dGravity;
+//
+//			if (nCountJump >= 40) {
+//				bCanJump = false;
+//				bCanFall = true;
+//				dJumpSpeed = 20;
+//				nCountJump = 0;
+//			}
+//		}
+//	}
 
-			if (nCountJump >= 40) {
-				bCanJump = false;
-				bCanFall = true;
-				dJumpSpeed = 20;
-				nCountJump = 0;
-			}
-		}
-	}
-
-	public void HandleFalling() {
-		if (bCanFall) {
-			nBallY -= dFallSpeed;
-			dFallSpeed += dGravity;
-		}
-		if (nBallY <= 100) {
-			bCanJump = true;
-			bCanFall = false;
-			dFallSpeed = 0;
-		}
-	}
+//	public void HandleFalling() {
+//		if (bCanFall) {
+//			nBallY -= dFallSpeed;
+//			dFallSpeed += dGravity;
+//		}
+//		if (nBallY <= 0) {
+//			bCanJump = true;
+//			bCanFall = false;
+//			dFallSpeed = 0;
+//			dJumpSpeed = dJumpSpeed * -0.95;
+//			dFallSpeed = dFallSpeed * -0.95;
+//			nBallY = 0;
+//			System.out.println(dJumpSpeed + ", " + dFallSpeed);
+//		}
+//	}
 
 	@Override
 	public void dispose () {
