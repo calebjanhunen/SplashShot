@@ -17,13 +17,12 @@ public class ScrPlay implements Screen {
 	boolean bCanFall = true, bCanJump = true;
 //	Vector balllocation, ballvelocity, ballgravity;
 
-	@Override
-	public void create () {
+	public ScrPlay(GamMain game) {
+		this.game = game;
 		batch = new SpriteBatch();
 		txtball = new Texture("basketball.png");
 		sprBall = new Sprite(txtball);
-		this.game = game;
-//		balllocation = new Vector(300,0);
+		//balllocation = new Vector(300,0);
 //		ballvelocity = new Vector(1,2);
 //		ballgravity = new Vector(0,1);
 	}
@@ -35,8 +34,7 @@ public class ScrPlay implements Screen {
 		batch.begin();
 		batch.draw(txtball, nBallX, nBallY, nBallWidth, nBallHeight); //ball
 		batch.end();
-
-
+		
 //		HandleJumping();
 //		HandleFalling();
 	}
