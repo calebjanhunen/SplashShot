@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.*;
 
 //import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,15 +19,19 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     Sprite arSprNet[] = new Sprite[10];
     String sNet;
     private BitmapFont font;
+    OrthographicCamera camera;
+    int nCounter = 0;
 	
 	@Override
 	public void create () {
         batch = new SpriteBatch();
-        for (int i = 1; i < 11; i++){
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        for (int i = 0; i < 10; i++){
             textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
-            sNet = "Net" + (i);
+            sNet = "Net" + (i + 1);
             textureRegion = textureAtlas.findRegion(sNet);
-            arSprNet[i-1] = new Sprite (textureRegion);
+            arSprNet[i] = new Sprite (textureRegion);
         }
         //basketballNet = new SpriteSheet (textureAtlas.findRegion("Net1"), 100, 100, 144, 156);
         Gdx.input.setInputProcessor(this);
@@ -34,16 +39,33 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         font.setColor(Color.BLACK);
     }
 
+    public int mousePressed(){
+	    int nY = 0;
+	    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                nY = Gdx.input.getY();
+        }
+        return nY;
+    }
+
+    public int mouseDragged(){
+	    int nY2, nDy = 0, iSpr, nY = mousePressed();
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            nY2 = Gdx.input.getY() + 1;
+            nDy = nY2 - mousePressed();
+            iSpr = nDy / 50;
+        }
+	    return nDy;
+    }
+
     @Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            for (int i = 1; i < 11; i++) {
-                arSprNet[i - 1].draw(batch);
-            }
+            for (int i = 0; i < 10; i++) {
+                arSprNet[i].draw(batch);
         }
+        System.out.println(mousePressed() + "   " + mouseDragged());
 		batch.end();
 	}
 
