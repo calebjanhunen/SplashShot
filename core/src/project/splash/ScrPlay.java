@@ -34,7 +34,7 @@ public class ScrPlay implements Screen {
 		batch.begin();
 		batch.draw(txtball, nBallX, nBallY, nBallWidth, nBallHeight); //ball
 		batch.end();
-		
+
 //		HandleJumping();
 //		HandleFalling();
 	}
