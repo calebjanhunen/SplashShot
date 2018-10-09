@@ -70,6 +70,10 @@ public class ScrPlay implements Screen {
 //		}
 //	}
 
+	public void show () {
+		return;
+	}
+
 	@Override
 	public void dispose () {
 		batch.dispose();
