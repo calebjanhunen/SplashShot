@@ -1,17 +1,16 @@
-//package project.splash;
-//
-//import com.badlogic.gdx.graphics.g2d.Sprite;
-//import com.badlogic.gdx.graphics.g2d.TextureRegion;
-//
-//public class GamMain extends Sprite {
-//    int width, height;
-//    TextureRegion textureRegion;
-//
-//    public GamMain(TextureRegion textureRegion, int x, int y, int width, int height){
-//        setPosition(x, y);
-//        this.width = width;
-//        this.height = height;
-//        this.textureRegion = textureRegion;
-//    }
-//
-//}
+package project.splash;
+
+import com.badlogic.gdx.Game;
+
+public class GamMain extends Game {
+
+    @Override
+    public void create() {
+        this.setScreen(new ScrPlay(this));
+    }
+
+    @Override
+    public void render() {
+        super.render();
+    }
+}

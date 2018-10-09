@@ -2,12 +2,14 @@ package project.splash;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class ScrPlay extends ApplicationAdapter {
+public class ScrPlay implements Screen {
+	GamMain game;
 	SpriteBatch batch;
 	Texture txtball;
 	Sprite sprBall;
@@ -21,6 +23,7 @@ public class ScrPlay extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		txtball = new Texture("basketball.png");
 		sprBall = new Sprite(txtball);
+		this.game = game;
 //		balllocation = new Vector(300,0);
 //		ballvelocity = new Vector(1,2);
 //		ballgravity = new Vector(0,1);
