@@ -27,42 +27,6 @@ public class ScrPlay implements Screen {
 
 	}
 
-<<<<<<< HEAD
-//	public void HandleJumping() {
-//		if (bCanJump) {
-//			nCountJump++;
-//			nBallY += dJumpSpeed;
-//			dJumpSpeed -= dGravity;
-//
-//			if (nCountJump >= 40) {
-//				bCanJump = false;
-//				bCanFall = true;
-//				dJumpSpeed = 20;
-//				nCountJump = 0;
-//			}
-//		}
-//	}
-
-//	public void HandleFalling() {
-//		if (bCanFall) {
-//			nBallY -= dFallSpeed;
-//			dFallSpeed += dGravity;
-//		}
-//		if (nBallY <= 0) {
-//			bCanJump = true;
-//			bCanFall = false;
-//			dFallSpeed = 0;
-//			dJumpSpeed = dJumpSpeed * -0.95;
-//			dFallSpeed = dFallSpeed * -0.95;
-//			nBallY = 0;
-//			System.out.println(dJumpSpeed + ", " + dFallSpeed);
-//		}
-//	}
-
-	@Override
-	public void show() {
-		return;
-=======
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -106,41 +70,8 @@ public class ScrPlay implements Screen {
 
 	@Override
 	public void hide() {
-
->>>>>>> 1d530b32349c34be12c0fa3cfa224ba6bb14202a
 	}
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(txtball, nBallX, nBallY, nBallWidth, nBallHeight); //ball
-		batch.end();
-
-//		HandleJumping();
-//		HandleFalling();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-	}
-
-	@Override
-	public void hide() {
-
-	}
 
 	@Override
 	public void dispose () {
