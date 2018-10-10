@@ -27,18 +27,6 @@ public class ScrPlay implements Screen {
 //		ballgravity = new Vector(0,1);
 	}
 
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(txtball, nBallX, nBallY, nBallWidth, nBallHeight); //ball
-		batch.end();
-
-//		HandleJumping();
-//		HandleFalling();
-	}
-
 //	public void HandleJumping() {
 //		if (bCanJump) {
 //			nCountJump++;
@@ -70,8 +58,41 @@ public class ScrPlay implements Screen {
 //		}
 //	}
 
-	public void show () {
+	@Override
+	public void show() {
 		return;
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.begin();
+		batch.draw(txtball, nBallX, nBallY, nBallWidth, nBallHeight); //ball
+		batch.end();
+
+//		HandleJumping();
+//		HandleFalling();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public void resume() {
+
+	}
+
+	@Override
+	public void hide() {
+
 	}
 
 	@Override
@@ -79,4 +100,5 @@ public class ScrPlay implements Screen {
 		batch.dispose();
 		txtball.dispose();
 	}
+
 }
