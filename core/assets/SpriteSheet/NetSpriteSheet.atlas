@@ -12,7 +12,7 @@ Net1
   index: -1
 Net2
   rotate: false
-  xy: 143, 0
+  xy: 143, 1
   size: 143, 156
   orig: 143, 156
   offset: 0, 0

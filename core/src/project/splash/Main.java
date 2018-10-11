@@ -2,7 +2,6 @@ package project.splash;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -20,7 +19,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     String sNet;
     private BitmapFont font;
     OrthographicCamera camera;
-    int nCounter = 0;
+    int nY, nY2, nDy, iSpr;
+    boolean isMousePressed = true;
 	
 	@Override
 	public void create () {
@@ -39,33 +39,15 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         font.setColor(Color.BLACK);
     }
 
-    public int mousePressed(){
-	    int nY = 0;
-	    if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                nY = Gdx.input.getY();
-        }
-        return nY;
-    }
-
-    public int mouseDragged(){
-	    int nY2, nDy = 0, iSpr, nY = mousePressed();
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            nY2 = Gdx.input.getY() + 1;
-            nDy = nY2 - mousePressed();
-            iSpr = nDy / 50;
-        }
-	    return nDy;
-    }
-
     @Override
 	public void render () {
         Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-            for (int i = 0; i < 10; i++) {
-                arSprNet[i].draw(batch);
+            for (float i = 0; i < 10; i++) {
+                arSprNet[iSpr].draw(batch);
         }
-        System.out.println(mousePressed() + "   " + mouseDragged());
+        System.out.println(nDy);
 		batch.end();
 	}
 
@@ -91,18 +73,39 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        nY = Gdx.input.getY();
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        iSpr = 0;
+        return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
+        nY2 = Gdx.input.getY();
+        nDy = nY2 - nY;
+//        if (nDy >= 9) {
+//            nDy = 9;
+//        } else if (nDy <= 0) {
+//            nDy = 0;
+//        }
+        if (nDy >= 29 && nDy < 48){
+            iSpr = 1;
+        } else if (nDy >= 49 && nDy < 68){
+            iSpr = 2;
+        }else if (nDy >= 69 && nDy < 88){
+            iSpr = 3;
+        }else if (nDy >= 89 && nDy < 108){
+            iSpr = 4;
+        }else if (nDy >= 109 && nDy < 128){
+            iSpr = 5;
+        }
+        return true;
     }
+
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
