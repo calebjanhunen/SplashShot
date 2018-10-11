@@ -87,11 +87,6 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         nY2 = Gdx.input.getY();
         nDy = nY2 - nY;
-//        if (nDy >= 9) {
-//            nDy = 9;
-//        } else if (nDy <= 0) {
-//            nDy = 0;
-//        }
         if (nDy >= 29 && nDy < 48){
             iSpr = 1;
         } else if (nDy >= 49 && nDy < 68){
@@ -102,6 +97,16 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             iSpr = 4;
         }else if (nDy >= 109 && nDy < 128){
             iSpr = 5;
+        }else if (nDy >= 129 && nDy < 148){
+            iSpr = 6;
+        }else if (nDy >= 149 && nDy < 168){
+            iSpr = 7;
+        }else if (nDy >= 169 && nDy < 188){
+            iSpr = 8;
+        }else if (nDy >= 189 && nDy < 108){
+            iSpr = 9;
+        }else if (nDy >= 109 && nDy < 128){
+            iSpr = 10;
         }
         return true;
     }
