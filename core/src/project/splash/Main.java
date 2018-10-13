@@ -19,7 +19,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     String sNet;
     private BitmapFont font;
     OrthographicCamera camera;
-    int nY, nY2, nDy, iSpr;
+    int nY, nY2, nDy, iSpr, nX, nX2, nDx;
     boolean isMousePressed = true;
 	
 	@Override
@@ -47,7 +47,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             for (float i = 0; i < 10; i++) {
                 arSprNet[iSpr].draw(batch);
         }
-        System.out.println(nDy);
+        System.out.println(nDy + "    " + nDx + "    " + iSpr);
 		batch.end();
 	}
 
@@ -74,6 +74,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         nY = Gdx.input.getY();
+        nX = Gdx.input.getX();
         return true;
     }
 
@@ -86,7 +87,9 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         nY2 = Gdx.input.getY();
+        nX2 = Gdx.input.getX();
         nDy = nY2 - nY;
+        nDx = nX2 - nX;
         if (nDy < 29){
             iSpr = 0;
         }
