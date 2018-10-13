@@ -47,7 +47,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             for (float i = 0; i < 10; i++) {
                 arSprNet[iSpr].draw(batch);
         }
-        System.out.println(nDy);
+        System.out.println(iSpr);
 		batch.end();
 	}
 
@@ -106,10 +106,10 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             iSpr = 7;
         }else if (nDy >= 169 && nDy < 188){
             iSpr = 8;
-        }else if (nDy >= 189 && nDy < 108){
+        }else if (nDy >= 189 && nDy < 208){
             iSpr = 9;
-        }else if (nDy >= 109 && nDy < 128){
-            iSpr = 10;
+        } else if (nDy >= 208){
+            iSpr = 9;
         }
         return true;
     }
