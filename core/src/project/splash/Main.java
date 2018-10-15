@@ -86,16 +86,14 @@ public class Main extends ApplicationAdapter implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+	    // net y direction
         nY2 = Gdx.input.getY();
-        nX2 = Gdx.input.getX();
         nDy = nY2 - nY;
-        nDx = nX2 - nX;
         if (nDy < 29){
             iSpr = 0;
-        }
-        if (nDy >= 29 && nDy < 48){
+        }else if (nDy >= 29 && nDy < 48){
             iSpr = 1;
-        } else if (nDy >= 49 && nDy < 68){
+        }else if (nDy >= 49 && nDy < 68){
             iSpr = 2;
         }else if (nDy >= 69 && nDy < 88){
             iSpr = 3;
@@ -109,11 +107,15 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             iSpr = 7;
         }else if (nDy >= 169 && nDy < 188){
             iSpr = 8;
-        }else if (nDy >= 189 && nDy < 108){
+        }else if (nDy >= 189 && nDy < 208){
             iSpr = 9;
-        }else if (nDy >= 109 && nDy < 128){
-            iSpr = 10;
-        }
+        } else if (nDy >= 208){
+        iSpr = 9;
+    }
+
+    //net x direction
+        nX2 = Gdx.input.getX();
+        nDx = nX2 - nX;
         return true;
     }
 
