@@ -23,7 +23,7 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     boolean isMousePressed = true;
 	
 	@Override
-	public void create () {
+    public void create () {
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -32,6 +32,8 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             sNet = "Net" + (i + 1);
             textureRegion = textureAtlas.findRegion(sNet);
             arSprNet[i] = new Sprite (textureRegion);
+            arSprNet[i].setPosition(100,100);
+            arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
         }
         //basketballNet = new SpriteSheet (textureAtlas.findRegion("Net1"), 100, 100, 144, 156);
         Gdx.input.setInputProcessor(this);
@@ -40,21 +42,22 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     }
 
     @Override
-	public void render () {
+    public void render () {
         Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-            for (float i = 0; i < 10; i++) {
-                arSprNet[iSpr].draw(batch);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        for (float i = 0; i < 10; i++) {
+            arSprNet[iSpr].setRotation(nDx);
+            arSprNet[iSpr].draw(batch);
         }
         System.out.println(nDy + "    " + nDx + "    " + iSpr);
-		batch.end();
-	}
+        batch.end();
+    }
 
     @Override
-	public void dispose () {
-		batch.dispose();
-	}
+    public void dispose () {
+        batch.dispose();
+    }
 
     @Override
     public boolean keyDown(int keycode) {
@@ -81,12 +84,13 @@ public class Main extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
+        //nDx = 0;
         return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-	    // net y direction
+        // net y direction
         nY2 = Gdx.input.getY();
         nDy = nY2 - nY;
         if (nDy < 29){
@@ -110,14 +114,23 @@ public class Main extends ApplicationAdapter implements InputProcessor {
         }else if (nDy >= 189 && nDy < 208){
             iSpr = 9;
         } else if (nDy >= 208){
-        iSpr = 9;
-    }
+            iSpr = 9;
+        } else if (nDy >= 208){
+            iSpr = 9;
+        }
 
-    //net x direction
+        //net x direction
         nX2 = Gdx.input.getX();
         nDx = nX2 - nX;
+        if (nDx >= 90){
+            nDx = 90;
+        } else if (nDx <= -90){
+            nDx = -90;
+        }
         return true;
     }
+
+
 
 
     @Override
