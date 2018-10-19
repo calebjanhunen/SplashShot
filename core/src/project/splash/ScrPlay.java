@@ -3,60 +3,85 @@ package project.splash;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 
 //import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Main extends ApplicationAdapter implements InputProcessor {
+public class ScrPlay extends ApplicationAdapter implements InputProcessor, Screen {
+    GamMain game;
 	SpriteBatch batch;
-    TextureAtlas textureAtlas;
-    SpriteSheet basketballNet;
+    sprNet basketballNet;
     TextureRegion textureRegion;
     Sprite arSprNet[] = new Sprite[10];
-    String sNet;
+    sprNet arSprNet2;
     private BitmapFont font;
     OrthographicCamera camera;
     int nY, nY2, nDy, iSpr, nX, nX2, nDx;
-    boolean isMousePressed = true;
-	
-	@Override
-    public void create () {
+    Texture tx;
+
+    public ScrPlay (GamMain game){
+        this.game = game;
+        tx = new Texture ("NetSpriteSheet.png");
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        for (int i = 0; i < 10; i++){
-            textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
-            sNet = "Net" + (i + 1);
-            textureRegion = textureAtlas.findRegion(sNet);
-            arSprNet[i] = new Sprite (textureRegion);
-            arSprNet[i].setPosition(100,100);
-            arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
-        }
-        //basketballNet = new SpriteSheet (textureAtlas.findRegion("Net1"), 100, 100, 144, 156);
+        //for (int i = 0; i < 10; i++){
+        //arSprNet2 = new sprNet (, 100, 100, 144, 156);
+        //arSprNet[i] = new Sprite (textureRegion);
+        //arSprNet[i].setPosition(100,100);
+        //arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
+        //}
         Gdx.input.setInputProcessor(this);
         font = new BitmapFont();
         font.setColor(Color.BLACK);
     }
+    @Override
+    public void show() {
+
+    }
 
     @Override
-    public void render () {
+    public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        for (float i = 0; i < 10; i++) {
-            arSprNet[iSpr].setRotation(nDx);
-            arSprNet[iSpr].draw(batch);
-        }
-        System.out.println(nDy + "    " + nDx + "    " + iSpr);
+//        for (float i = 0; i < 10; i++) {
+        //arSprNet2[iSpr].setRotation(nDx);
+        //arSprNet[iSpr].draw(batch);
+        //arSprNet2.draw(batch);
+//        }
         batch.end();
+        System.out.println(nDy + "    " + nDx + "    " + iSpr);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
     public void dispose () {
-        batch.dispose();
+       batch.dispose();
     }
 
     @Override
