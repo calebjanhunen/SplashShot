@@ -1,6 +1,5 @@
 package project.splash;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -10,37 +9,40 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-//import com.badlogic.gdx.
-import project.splash.sprNet;
+import com.badlogic.gdx.
 
-public class ScrPlay implements InputProcessor, Screen {
+
+public class ScrPlay implements Screen, InputProcessor {
     GamMain game;
-	SpriteBatch batch;
-    sprNet basketballNet;
+    SpriteBatch batch;
+    SprNet basketballNet;
     TextureRegion textureRegion;
-    Sprite arSprNet[] = new Sprite[10];
+    TextureAtlas textureAtlas;
+    String sNet;
+    //Sprite arSprNet[] = new Sprite[10];
     private BitmapFont font;
     OrthographicCamera camera;
-    int nY, nY2, nDy, iSpr, nX, nX2, nDx;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
     Texture tx;
-    sprNet net = new sprNet();
+    SprNet sprNet1;
 
-    public ScrPlay (GamMain game){
+    public ScrPlay(GamMain game) {
         this.game = game;
-        tx = new Texture ("NetSpriteSheet.png");
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //for (int i = 0; i < 10; i++){
-        //arSprNet2 = new sprNet (, 100, 100, 144, 156);
-        //arSprNet[i] = new Sprite (textureRegion);
-        //arSprNet[i].setPosition(100,100);
-        //arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
-        //}
-        Gdx.input.setInputProcessor(this);
+//        for (int i = 0; i < 10; i++) {
+//            textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
+//            sNet = "Net" + (i + 1);
+//            textureRegion = textureAtlas.findRegion(sNet);
+//            arSprNet[i] = new Sprite(textureRegion);
+//            arSprNet[i].setPosition(100, 100);
+//            arSprNet[i].setOrigin(arSprNet[i].getWidth() / 2, arSprNet[i].getHeight());
+//        }
         font = new BitmapFont();
         font.setColor(Color.BLACK);
     }
+
     @Override
     public void show() {
 
@@ -51,16 +53,9 @@ public class ScrPlay implements InputProcessor, Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-//        for (float i = 0; i < 10; i++) {
-        //arSprNet2[iSpr].setRotation(nDx);
-        //arSprNet[iSpr].draw(batch);
-        //arSprNet2.draw(batch);
-//        }
-
-
+        sprNet1 = SprNet.update(iSpr);
+        SprNet1.draw(batch);
         batch.end();
-        net.update();
-      //  System.out.println(nDy + "    " + nDx + "    " + iSpr);
     }
 
     @Override
@@ -84,8 +79,8 @@ public class ScrPlay implements InputProcessor, Screen {
     }
 
     @Override
-    public void dispose () {
-       batch.dispose();
+    public void dispose() {
+        batch.dispose();
     }
 
     @Override
@@ -105,62 +100,40 @@ public class ScrPlay implements InputProcessor, Screen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        nY = Gdx.input.getY();
-//        nX = Gdx.input.getX();
-        return true;
+        nMouseY = Gdx.input.getY();
+        nMouseX = Gdx.input.getX();
+        return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        //iSpr = 0;
-        //nDx = 0;
-        return true;
+        iSpr = 0;
+        return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-//        // net y direction
-//        nY2 = Gdx.input.getY();
-//        nDy = nY2 - nY;
-//        if (nDy < 29){
-//            iSpr = 0;
-//        }else if (nDy >= 29 && nDy < 48){
-//            iSpr = 1;
-//        }else if (nDy >= 49 && nDy < 68){
-//            iSpr = 2;
-//        }else if (nDy >= 69 && nDy < 88){
-//            iSpr = 3;
-//        }else if (nDy >= 89 && nDy < 108){
-//            iSpr = 4;
-//        }else if (nDy >= 109 && nDy < 128){
-//            iSpr = 5;
-//        }else if (nDy >= 129 && nDy < 148){
-//            iSpr = 6;
-//        }else if (nDy >= 149 && nDy < 168){
-//            iSpr = 7;
-//        }else if (nDy >= 169 && nDy < 188){
-//            iSpr = 8;
-//        }else if (nDy >= 189 && nDy < 208){
-//            iSpr = 9;
-//        } else if (nDy >= 208){
-//            iSpr = 9;
-//        } else if (nDy >= 208){
-//            iSpr = 9;
-//        }
-//
-//        //net x direction
-//        nX2 = Gdx.input.getX();
-//        nDx = nX2 - nX;
-//        if (nDx >= 90){
-//            nDx = 90;
-//        } else if (nDx <= -90){
-//            nDx = -90;
-//        }
-        return true;
+        // net y direction
+        nMouseY2 = Gdx.input.getY();
+        nMouseDy = nMouseY2 - nMouseY;
+        iDiv = nMouseDy / 20;
+        iSpr = iDiv;
+        if (iDiv > 9) {
+            iSpr = 9;
+        } else if (iDiv < 0){
+            iSpr = 0;
+        }
+
+        //net x direction
+        nMouseX2 = Gdx.input.getX();
+        nMouseDx = nMouseX2 - nMouseX;
+        if (nMouseDx >= 90){
+            nMouseDx = 90;
+        } else if (nMouseDx <= -90){
+            nMouseDx = -90;
+        }
+        return false;
     }
-
-
-
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
@@ -172,3 +145,4 @@ public class ScrPlay implements InputProcessor, Screen {
         return false;
     }
 }
+
