@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.
 
 
 public class ScrPlay implements Screen, InputProcessor {
@@ -19,12 +18,10 @@ public class ScrPlay implements Screen, InputProcessor {
     TextureRegion textureRegion;
     TextureAtlas textureAtlas;
     String sNet;
-    //Sprite arSprNet[] = new Sprite[10];
     private BitmapFont font;
     OrthographicCamera camera;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
-    Texture tx;
-    SprNet sprNet1;
+    SprNet sprNet1 = new SprNet();
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -53,8 +50,8 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        sprNet1 = SprNet.update(iSpr);
-        SprNet1.draw(batch);
+        sprNet1.update(iSpr);
+        sprNet1.draw(batch);
         batch.end();
     }
 
