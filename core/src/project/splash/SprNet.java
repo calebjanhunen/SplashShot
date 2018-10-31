@@ -10,6 +10,7 @@ public class SprNet extends Sprite {
     TextureRegion textureRegion;
     String sNet;
     Sprite arSprNet[] = new Sprite[10];
+    int index;
 
     public SprNet() {
         for (int i = 0; i < 10; i++) {
@@ -17,13 +18,12 @@ public class SprNet extends Sprite {
             sNet = "Net" + (i + 1);
             textureRegion = textureAtlas.findRegion(sNet);
             arSprNet[i] = new Sprite(textureRegion);
+            arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
         }
     }
 
-    public Sprite update(int i) {
-        for (i = 0; i < 10; i++) {
-            return arSprNet[i];
-        }
-        return null;
+    public Sprite update(int _index) {
+        index = _index;
+        return arSprNet[index];
     }
 }

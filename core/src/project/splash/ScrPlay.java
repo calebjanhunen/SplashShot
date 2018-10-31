@@ -22,20 +22,14 @@ public class ScrPlay implements Screen, InputProcessor {
     OrthographicCamera camera;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
     SprNet sprNet1 = new SprNet();
+    Sprite sprCurNet = new Sprite();
 
     public ScrPlay(GamMain game) {
         this.game = game;
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        for (int i = 0; i < 10; i++) {
-//            textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
-//            sNet = "Net" + (i + 1);
-//            textureRegion = textureAtlas.findRegion(sNet);
-//            arSprNet[i] = new Sprite(textureRegion);
-//            arSprNet[i].setPosition(100, 100);
-//            arSprNet[i].setOrigin(arSprNet[i].getWidth() / 2, arSprNet[i].getHeight());
-//        }
+        Gdx.input.setInputProcessor((this));
         font = new BitmapFont();
         font.setColor(Color.BLACK);
     }
@@ -49,9 +43,10 @@ public class ScrPlay implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        sprCurNet = sprNet1.update(iSpr);
         batch.begin();
-        sprNet1.update(iSpr);
-        sprNet1.draw(batch);
+        sprCurNet.setRotation(nMouseDx);
+        sprCurNet.draw(batch);
         batch.end();
     }
 
@@ -82,6 +77,8 @@ public class ScrPlay implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println(keycode);
+
         return false;
     }
 
@@ -99,6 +96,7 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         nMouseY = Gdx.input.getY();
         nMouseX = Gdx.input.getX();
+        System.out.println(nMouseX + " " + nMouseY);
         return false;
     }
 
@@ -120,6 +118,7 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (iDiv < 0){
             iSpr = 0;
         }
+        System.out.println(iSpr);
 
         //net x direction
         nMouseX2 = Gdx.input.getX();
