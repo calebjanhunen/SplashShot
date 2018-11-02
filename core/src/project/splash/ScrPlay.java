@@ -17,9 +17,10 @@ public class ScrPlay implements Screen, InputProcessor {
     OrthographicCamera camera;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
     int nBallWidth = 100, nBallHeight = 100;
+    Texture txtBall = new Texture("basketball.png");
     SprNet sprNet1 = new SprNet(100,100), sprNet2 = new SprNet(400,400);
-//    SprBall sprBall = new SprBall(100,100);
-    Texture txtball;
+    SprBall sprBall = new SprBall(txtBall,100,100);
+    float balllocationY;
     Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
 
     public ScrPlay(GamMain game) {
@@ -30,8 +31,7 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.input.setInputProcessor((this));
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        txtball = new Texture("basketball.png");
-        sprBall = new Sprite(txtball);
+        //sprBall = new Sprite(txtball);
     }
 
     @Override
@@ -45,7 +45,9 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
         sprCurNet2= sprNet2.update(iSpr);
+        balllocationY = sprBall.update();
         batch.begin();
+        sprBall.draw(batch);
         sprCurNet.setRotation(nMouseDx);
         sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
