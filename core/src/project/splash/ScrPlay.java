@@ -6,18 +6,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 public class ScrPlay implements Screen, InputProcessor {
     GamMain game;
     SpriteBatch batch;
-    SprNet basketballNet;
-    TextureRegion textureRegion;
-    TextureAtlas textureAtlas;
-    String sNet;
     private BitmapFont font;
     OrthographicCamera camera;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
@@ -49,7 +45,6 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet.setRotation(nMouseDx);
         sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
-        sprCurNet2.draw(batch);
         batch.end();
     }
 
@@ -80,8 +75,6 @@ public class ScrPlay implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        System.out.println(keycode);
-
         return false;
     }
 
@@ -99,7 +92,6 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         nMouseY = Gdx.input.getY();
         nMouseX = Gdx.input.getX();
-        System.out.println(nMouseX + " " + nMouseY);
         return false;
     }
 
@@ -121,7 +113,6 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (iDiv < 0){
             iSpr = 0;
         }
-        System.out.println(iSpr);
 
         //net x direction
         nMouseX2 = Gdx.input.getX();
