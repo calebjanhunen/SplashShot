@@ -13,14 +13,12 @@ import com.badlogic.gdx.graphics.g2d.*;
 public class Main extends ApplicationAdapter implements InputProcessor {
 	SpriteBatch batch;
     TextureAtlas textureAtlas;
-    SpriteSheet basketballNet;
     TextureRegion textureRegion;
     Sprite arSprNet[] = new Sprite[10];
     String sNet;
     private BitmapFont font;
     OrthographicCamera camera;
     int nY, nY2, nDy, iSpr, nX, nX2, nDx;
-    boolean isMousePressed = true;
 	
 	@Override
     public void create () {
@@ -50,7 +48,6 @@ public class Main extends ApplicationAdapter implements InputProcessor {
             arSprNet[iSpr].setRotation(nDx);
             arSprNet[iSpr].draw(batch);
         }
-        System.out.println(nDy + "    " + nDx + "    " + iSpr);
         batch.end();
     }
 
