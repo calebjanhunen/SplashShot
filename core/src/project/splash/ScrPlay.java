@@ -31,7 +31,6 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.input.setInputProcessor((this));
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        //sprBall = new Sprite(txtball);
     }
 
     @Override
