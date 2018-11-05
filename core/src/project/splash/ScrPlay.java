@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -38,7 +40,7 @@ public class ScrPlay implements Screen, InputProcessor {
         font.setColor(Color.BLACK);
 
         shaperenderer = new ShapeRenderer();
-        v2balllocation = new Vector2(300,300);
+        v2balllocation = new Vector2(300,600);
         v2ballvelocity = new Vector2((float)8.0,(float)10.0);
         v2ballgravity = new Vector2(0,(float) 0.5);
         txtball = new Texture("basketball.png");
@@ -59,6 +61,7 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.begin();
         sprCurNet.setRotation(nMouseDx); //need the rectangle net hitbox to rotate as well
         sprCurNet.draw(batch);
+
         sprBall.setPosition(v2balllocation.x, v2balllocation.y);
         sprBall.draw(batch);
         batch.end();
