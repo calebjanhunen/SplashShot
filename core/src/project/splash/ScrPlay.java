@@ -45,12 +45,12 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
         sprCurNet2= sprNet2.update(iSpr);
-        balllocationY = sprBall.update();
+//        balllocationY = sprBall.update();
         batch.begin();
         sprBall.draw(batch);
         sprCurNet.setRotation(nMouseDx);
         sprCurNet2.setRotation(nMouseDx);
-        sprCurNet.draw(batch);
+        //sprCurNet.draw(batch);
         batch.end();
     }
 
