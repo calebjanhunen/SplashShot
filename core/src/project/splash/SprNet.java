@@ -1,6 +1,7 @@
 package project.splash;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,6 +14,7 @@ public class SprNet extends Sprite {
     int index;
 
     public SprNet(int _nX, int _nY) {
+        super(new Texture(Gdx.files.internal("NetSpriteSheet.png")));
         for (int i = 0; i < 10; i++) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
             sNet = "Net" + (i + 1);

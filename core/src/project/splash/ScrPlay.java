@@ -16,11 +16,11 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
-    Texture txtBall = new Texture("basketball.png");
-    SprNet sprNet1 = new SprNet(100,100), sprNet2 = new SprNet(400,400);
-    SprBall sprBall = new SprBall(txtBall,100, 200, 100, 100);
+    Texture txtBall;
+    SprNet sprNet1;
+    SprBall sprBall;
     float balllocationY;
-    Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
+    Sprite sprCurNet;
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -30,6 +30,10 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.input.setInputProcessor((this));
         font = new BitmapFont();
         font.setColor(Color.BLACK);
+        txtBall  = new Texture("basketball.png");
+        sprBall  = new SprBall(txtBall,300, 200, 100, 100);
+        sprNet1 = new SprNet(100,100);
+        sprCurNet = new Sprite();
     }
 
     @Override
@@ -42,13 +46,13 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
-        sprCurNet2= sprNet2.update(iSpr);
-//        balllocationY = sprBall.update();
+//        sprCurNet2= sprNet2.update(iSpr);
+        balllocationY = sprBall.update();
         batch.begin();
         sprBall.draw(batch);
         sprCurNet.setRotation(nMouseDx);
-        sprCurNet2.setRotation(nMouseDx);
-        //sprCurNet.draw(batch);
+//        sprCurNet2.setRotation(nMouseDx);
+        //sprCurNet2.draw(batch);
         batch.end();
     }
 
