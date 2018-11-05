@@ -6,9 +6,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 
 public class ScrPlay implements Screen, InputProcessor {
@@ -16,9 +18,14 @@ public class ScrPlay implements Screen, InputProcessor {
     SpriteBatch batch;
     private BitmapFont font;
     OrthographicCamera camera;
+    Rectangle rectNet, rectBall;
+    ShapeRenderer shaperenderer;
+    Texture txtball;
+    Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
-    SprNet sprNet1 = new SprNet(100,100), sprNet2 = new SprNet(400,400);
-    Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
+    int nBallWidth = 70, nBallHeight = 70;
+    SprNet sprNet1 = new SprNet(100,100);
+    Sprite sprCurNet = new Sprite(), sprBall;
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -28,6 +35,14 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.input.setInputProcessor((this));
         font = new BitmapFont();
         font.setColor(Color.BLACK);
+
+        shaperenderer = new ShapeRenderer();
+        v2balllocation = new Vector2(300,300);
+        v2ballvelocity = new Vector2((float)8.0,(float)10.0);
+        v2ballgravity = new Vector2(0,(float) 0.5);
+        txtball = new Texture("basketball.png");
+        sprBall = new Sprite(txtball);
+        sprBall.setSize(nBallWidth, nBallHeight);
     }
 
     @Override
@@ -40,12 +55,42 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
-        sprCurNet2= sprNet2.update(iSpr);
         batch.begin();
         sprCurNet.setRotation(nMouseDx);
-        sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
+        sprBall.setPosition(v2balllocation.x, v2balllocation.y);
+        sprBall.draw(batch); //ball
+
         batch.end();
+
+        shaperenderer.begin(ShapeRenderer.ShapeType.Line);
+        shaperenderer.setColor(Color.RED);
+        shaperenderer.rect(sprBall.getX(),sprBall.getY(),sprBall.getWidth(), sprBall.getHeight());
+        shaperenderer.rect(sprCurNet.getX(),sprCurNet.getY(),sprCurNet.getWidth(), sprCurNet.getHeight());   //the y coordinate of the bottom of the net needs to be constantly updated as the net stretches to create a hitbox there
+        shaperenderer.end();
+
+        HandleBouncing();
+        HandleHitDetection();
+    }
+
+    public void HandleBouncing(){
+        v2balllocation.y += v2ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
+        v2ballvelocity.y -= v2ballgravity.y;
+
+        if (v2balllocation.y < 0) {
+            v2ballvelocity.y = (float)(v2ballvelocity.y * -0.9);
+            v2balllocation.y = 0;
+        }
+    }
+
+    public void HandleHitDetection(){
+        sprBall.getBoundingRectangle();
+        rectBall = new Rectangle(sprBall.getX(), sprBall.getY(), sprBall.getWidth(), sprBall.getHeight());
+        rectNet = new Rectangle(sprCurNet.getX(), sprCurNet.getY(), sprCurNet.getWidth(), sprCurNet.getHeight());
+        boolean isOverlapping = rectBall.overlaps(rectNet);
+        if (isOverlapping) {
+            System.out.println("overlapping");
+        }
     }
 
     @Override

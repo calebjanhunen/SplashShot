@@ -1,25 +1,34 @@
 package project.splash;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public class SprBall extends Sprite {
-    TextureAtlas textureAtlas;
-    TextureRegion textureRegion;
-    String sNet;
-    Sprite arSprNet[] = new Sprite[10];
-    int index;
 
-    public SprBall(int _nX, int _nY) {
-        for (int i = 0; i < 10; i++) {
-            textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
-            sNet = "Net" + (i + 1);
-            textureRegion = textureAtlas.findRegion(sNet);
-            arSprNet[i] = new Sprite(textureRegion);
-            arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
-            arSprNet[i].setPosition(_nX, _nY);
+    Vector2 balllocation, ballvelocity, ballgravity;
+    Texture txtball, txt;
+
+    public SprBall(Texture _txt, int _nX2, int _nY2) {
+        this.txt = _txt;
+        txtball = new Texture("basketball.png");
+        balllocation = new Vector2(_nX2, _nY2);
+        ballvelocity = new Vector2((float) 8.0, (float) 10.0);
+        ballgravity = new Vector2(0, (float) 0.5);
+    }
+
+    public float update() {
+        balllocation.y += ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
+        ballvelocity.y -= ballgravity.y;
+
+        if (balllocation.y < 0) {
+            ballvelocity.y = (float) (ballvelocity.y * -0.9);
+            balllocation.y = 0;
         }
+        return balllocation.y;
+    }
+
+    public void Yvelocity() {
+
     }
 }
