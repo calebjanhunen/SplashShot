@@ -27,7 +27,7 @@ public class ScrPlay implements Screen, InputProcessor {
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
     SprNet sprNet1;
     Sprite sprCurNet;
-    Sprite sprBall;
+    SprBall sprBall;
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -56,7 +56,7 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
-        balllocation = sprBall.update2();
+        balllocation = sprBall.update();
 
         batch.begin();
         sprCurNet.setRotation(nMouseDx); //need the rectangle net hitbox to rotate as well
@@ -64,7 +64,7 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
 //        polyNet.setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight()/2);
 //        polyNet.setRotation(nMouseDx);
-//        polyNet.setPosition(x, y);
+//        polyNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
