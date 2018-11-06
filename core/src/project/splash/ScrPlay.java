@@ -11,7 +11,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -20,6 +22,7 @@ public class ScrPlay implements Screen, InputProcessor {
     SpriteBatch batch;
     private BitmapFont font;
     OrthographicCamera camera;
+    Rectangle rectBall;
     Polygon polyNet, polyBall;
     ShapeRenderer shaperenderer;
     Texture txtball;
@@ -40,7 +43,7 @@ public class ScrPlay implements Screen, InputProcessor {
         shaperenderer = new ShapeRenderer();
         txtball = new Texture("basketball.png");
         sprBall  = new SprBall(txtball,300, 500, 100, 100);
-        polyBall = new Polygon(new float[]{0,0,sprBall.getWidth(),0,sprBall.getWidth(),sprBall.getHeight(),0,sprBall.getHeight()});
+        rectBall = new Rectangle(sprBall.getX(), sprBall.getY(), sprBall.getWidth(), sprBall.getHeight());
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
         polyNet = new Polygon(new float[]{0,0,sprCurNet.getWidth(),0,sprCurNet.getWidth(),sprCurNet.getHeight(),0,sprCurNet.getHeight()});
@@ -68,8 +71,9 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
+        shaperenderer.setProjectionMatrix(camera.combined);
         shaperenderer.setColor(Color.RED);
-        shaperenderer.polygon(polyBall.getTransformedVertices());
+        shaperenderer.rect(sprBall.getX(),sprBall.getY(),sprBall.getWidth(),sprBall.getHeight());
         shaperenderer.polygon(polyNet.getTransformedVertices());//the y coordinate of the bottom of the net needs to be constantly updated as the net stretches to create a hitbox there
         shaperenderer.end();
 
@@ -78,7 +82,12 @@ public class ScrPlay implements Screen, InputProcessor {
 
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx
-
+        polyBall = new Polygon(new float[]{0,0,rectBall.getWidth(),0,rectBall.getWidth(),rectBall.getHeight(),0,rectBall.getHeight()});
+        polyBall.setPosition(rectBall.getX(), rectBall.getY());
+        boolean isOverlapping = Intersector.overlapConvexPolygons(polyBall, polyNet);
+        if(isOverlapping){
+            System.out.println("overlapping");
+        }
     }
 
     @Override
