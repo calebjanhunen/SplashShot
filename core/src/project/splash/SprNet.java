@@ -20,9 +20,10 @@ public class SprNet extends Sprite {
             sNet = "Net" + (i + 1);
             textureRegion = textureAtlas.findRegion(sNet);
             arSprNet[i] = new Sprite(textureRegion);
+            arSprNet[i].setSize(_nW, _nH);
             arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
             arSprNet[i].setPosition(_nX, _nY);
-            arSprNet[i].setSize(_nW, _nH);
+
         }
     }
 

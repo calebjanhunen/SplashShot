@@ -16,7 +16,7 @@ public class SprBall extends Sprite {
         super(_txt);
         this.txt = _txt;
         txtball = new Texture("basketball.png");
-        balllocation = new Vector2(100, 100);
+        balllocation = new Vector2(300, 500);
         ballvelocity = new Vector2((float) 8.0, (float) 10.0);
         ballgravity = new Vector2(0, (float) 0.5);
         SprBall.setOrigin(_nX2, _nY2);
