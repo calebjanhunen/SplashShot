@@ -49,12 +49,9 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet = sprNet1.update(iSpr);
         balllocation = sprBall.update();
         batch.begin();
-
         batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
-
         sprCurNet.setRotation(nMouseDx);
         sprCurNet.draw(batch);
-
         batch.end();
     }
 
