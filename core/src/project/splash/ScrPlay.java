@@ -23,11 +23,10 @@ public class ScrPlay implements Screen, InputProcessor {
     Polygon polyNet, polyBall;
     ShapeRenderer shaperenderer;
     Texture txtball;
-    Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
+    Vector2 balllocation;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
-    int nBallWidth = 70, nBallHeight = 70;
-    SprNet sprNet1 = new SprNet(100,100, 250, 250);
-    Sprite sprCurNet = new Sprite();
+    SprNet sprNet1;
+    Sprite sprCurNet;
     Sprite sprBall;
 
     public ScrPlay(GamMain game) {
@@ -39,13 +38,11 @@ public class ScrPlay implements Screen, InputProcessor {
         font = new BitmapFont();
         font.setColor(Color.BLACK);
         shaperenderer = new ShapeRenderer();
-        v2balllocation = new Vector2(300,600);
-        v2ballvelocity = new Vector2((float)8.0,(float)10.0);
-        v2ballgravity = new Vector2(0,(float) 0.5);
         txtball = new Texture("basketball.png");
-        sprBall = new Sprite(txtball);
-        sprBall.setSize(nBallWidth, nBallHeight);
+        sprBall  = new SprBall(txtball,300, 500, 100, 100);
         polyBall = new Polygon(new float[]{0,0,sprBall.getWidth(),0,sprBall.getWidth(),sprBall.getHeight(),0,sprBall.getHeight()});
+        sprNet1 = new SprNet(100,100, 250, 250);
+        sprCurNet = new Sprite();
         polyNet = new Polygon(new float[]{0,0,sprCurNet.getWidth(),0,sprCurNet.getWidth(),sprCurNet.getHeight(),0,sprCurNet.getHeight()});
     }
 
@@ -59,14 +56,15 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
+        balllocation = sprBall.update2();
+
         batch.begin();
         sprCurNet.setRotation(nMouseDx); //need the rectangle net hitbox to rotate as well
         sprCurNet.draw(batch);
-        sprBall.setPosition(v2balllocation.x, v2balllocation.y);
+        batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
 //        polyNet.setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight()/2);
 //        polyNet.setRotation(nMouseDx);
 //        polyNet.setPosition(x, y);
-        sprBall.draw(batch);
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -75,19 +73,9 @@ public class ScrPlay implements Screen, InputProcessor {
         shaperenderer.polygon(polyNet.getTransformedVertices());//the y coordinate of the bottom of the net needs to be constantly updated as the net stretches to create a hitbox there
         shaperenderer.end();
 
-        HandleBouncing();
         HandleHitDetection();
     }
 
-    public void HandleBouncing(){
-        v2balllocation.y += v2ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
-        v2ballvelocity.y -= v2ballgravity.y;
-
-        if (v2balllocation.y < 0) {
-            v2ballvelocity.y = (float)(v2ballvelocity.y * -0.9);
-            v2balllocation.y = 0;
-        }
-    }
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx
 
