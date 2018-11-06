@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -20,7 +20,7 @@ public class ScrPlay implements Screen, InputProcessor {
     SpriteBatch batch;
     private BitmapFont font;
     OrthographicCamera camera;
-    Rectangle rectNet, rectBall;
+    Polygon polyNet, polyBall;
     ShapeRenderer shaperenderer;
     Texture txtball;
     Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
@@ -38,7 +38,6 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.input.setInputProcessor((this));
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-
         shaperenderer = new ShapeRenderer();
         v2balllocation = new Vector2(300,600);
         v2ballvelocity = new Vector2((float)8.0,(float)10.0);
@@ -46,6 +45,8 @@ public class ScrPlay implements Screen, InputProcessor {
         txtball = new Texture("basketball.png");
         sprBall = new Sprite(txtball);
         sprBall.setSize(nBallWidth, nBallHeight);
+        polyBall = new Polygon(new float[]{0,0,sprBall.getWidth(),0,sprBall.getWidth(),sprBall.getHeight(),0,sprBall.getHeight()});
+        polyNet = new Polygon(new float[]{0,0,sprCurNet.getWidth(),0,sprCurNet.getWidth(),sprCurNet.getHeight(),0,sprCurNet.getHeight()});
     }
 
     @Override
@@ -61,15 +62,17 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.begin();
         sprCurNet.setRotation(nMouseDx); //need the rectangle net hitbox to rotate as well
         sprCurNet.draw(batch);
-
         sprBall.setPosition(v2balllocation.x, v2balllocation.y);
+//        polyNet.setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight()/2);
+//        polyNet.setRotation(nMouseDx);
+//        polyNet.setPosition(x, y);
         sprBall.draw(batch);
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
         shaperenderer.setColor(Color.RED);
-        shaperenderer.rect(sprBall.getX(),sprBall.getY(),sprBall.getWidth(), sprBall.getHeight());
-        shaperenderer.rect(sprCurNet.getX(),sprCurNet.getY(),sprCurNet.getWidth(), sprCurNet.getHeight());   //the y coordinate of the bottom of the net needs to be constantly updated as the net stretches to create a hitbox there
+        shaperenderer.polygon(polyBall.getTransformedVertices());
+        shaperenderer.polygon(polyNet.getTransformedVertices());//the y coordinate of the bottom of the net needs to be constantly updated as the net stretches to create a hitbox there
         shaperenderer.end();
 
         HandleBouncing();
@@ -86,14 +89,8 @@ public class ScrPlay implements Screen, InputProcessor {
         }
     }
 
-    public void HandleHitDetection(){
-        sprBall.getBoundingRectangle();
-        rectBall = new Rectangle(sprBall.getX(), sprBall.getY(), sprBall.getWidth(), sprBall.getHeight());
-        rectNet = new Rectangle(sprCurNet.getX(), sprCurNet.getY(), sprCurNet.getWidth(), sprCurNet.getHeight());
-        boolean isOverlapping = rectBall.overlaps(rectNet);
-        if (isOverlapping) {
-            System.out.println("overlapping");
-        }
+    public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx
+
     }
 
     @Override
