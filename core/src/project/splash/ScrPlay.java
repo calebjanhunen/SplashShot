@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Vector2;
 
 
 public class ScrPlay implements Screen, InputProcessor {
@@ -19,7 +20,7 @@ public class ScrPlay implements Screen, InputProcessor {
     Texture txtBall;
     SprNet sprNet1;
     SprBall sprBall;
-    float balllocationY;
+    Vector2 balllocation;
     Sprite sprCurNet;
 
     public ScrPlay(GamMain game) {
@@ -46,13 +47,14 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
-//        sprCurNet2= sprNet2.update(iSpr);
-        balllocationY = sprBall.update();
+        balllocation = sprBall.update();
         batch.begin();
-        sprBall.draw(batch);
+
+        batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
+
         sprCurNet.setRotation(nMouseDx);
-//        sprCurNet2.setRotation(nMouseDx);
-        //sprCurNet2.draw(batch);
+        sprCurNet.draw(batch);
+
         batch.end();
     }
 
