@@ -33,7 +33,7 @@ public class ScrPlay implements Screen, InputProcessor {
         font.setColor(Color.BLACK);
         txtBall  = new Texture("basketball.png");
         sprBall  = new SprBall(txtBall,300, 200, 100, 100);
-        sprNet1 = new SprNet(100,100);
+        sprNet1 = new SprNet(100,100, 250,200);
         sprCurNet = new Sprite();
     }
 

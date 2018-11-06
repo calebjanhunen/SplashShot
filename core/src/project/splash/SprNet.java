@@ -13,7 +13,7 @@ public class SprNet extends Sprite {
     Sprite arSprNet[] = new Sprite[10];
     int index;
 
-    public SprNet(int _nX, int _nY) {
+    public SprNet(int _nX, int _nY, int _nW, int _nH) {
         super(new Texture(Gdx.files.internal("NetSpriteSheet.png")));
         for (int i = 0; i < 10; i++) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
@@ -22,6 +22,7 @@ public class SprNet extends Sprite {
             arSprNet[i] = new Sprite(textureRegion);
             arSprNet[i].setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight());
             arSprNet[i].setPosition(_nX, _nY);
+            arSprNet[i].setSize(_nW, _nH);
         }
     }
 
