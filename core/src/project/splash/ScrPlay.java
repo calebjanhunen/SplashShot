@@ -10,24 +10,32 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.Random;
+
 
 public class ScrPlay implements Screen, InputProcessor {
     GamMain game;
     SpriteBatch batch;
     private BitmapFont font;
     OrthographicCamera camera;
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
-    SprNet sprNet1 = new SprNet(100,100), sprNet2 = new SprNet(400,400);
+    Random r = new Random();
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nMinX = 0, nMaxX = 600, ranX1, ranX2;
+    SprNet sprNet1, sprNet2;
     Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
 
     public ScrPlay(GamMain game) {
         this.game = game;
+        Gdx.input.setInputProcessor((this));
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.input.setInputProcessor((this));
         font = new BitmapFont();
         font.setColor(Color.BLACK);
+        ranX1 = r.nextInt(nMaxX - nMinX) + nMinX; // random x coordinate for first net
+        ranX2 = r.nextInt(nMaxX - nMinX) + nMinX; // random x coordinate for second net
+        sprNet1 = new SprNet(ranX1,100, 250, 250); //First Net
+        sprNet2 = new SprNet(ranX2,400, 250, 250); // Second Net
+        System.out.println(ranX1 + " " + ranX2);
     }
 
     @Override
@@ -40,12 +48,12 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         sprCurNet = sprNet1.update(iSpr);
-//        sprCurNet2= sprNet2.update(iSpr);
+        sprCurNet2= sprNet2.update(iSpr);
         batch.begin();
         sprCurNet.setRotation(nMouseDx);
-//        sprCurNet2.setRotation(nMouseDx);
+        sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
-//        sprCurNet2.draw(batch);
+        sprCurNet2.draw(batch);
         batch.end();
     }
 
