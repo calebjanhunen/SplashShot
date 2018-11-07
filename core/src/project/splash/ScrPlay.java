@@ -42,11 +42,13 @@ public class ScrPlay implements Screen, InputProcessor {
         font.setColor(Color.BLACK);
         shaperenderer = new ShapeRenderer();
         txtball = new Texture("basketball.png");
-        sprBall  = new SprBall(txtball,300, 500, 100, 100);
-        rectBall = new Rectangle(sprBall.getX(), sprBall.getY(), sprBall.getWidth(), sprBall.getHeight());
+        sprBall  = new SprBall(txtball,300, 500, 75, 75);
+        rectBall = new Rectangle(sprBall.getBoundingRectangle());
+        polyBall = new Polygon(new float[]{0,0,rectBall.getWidth(),0,rectBall.getWidth(),rectBall.getHeight(),0,rectBall.getHeight()});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
         polyNet = new Polygon(new float[]{0,0,sprCurNet.getWidth(),0,sprCurNet.getWidth(),sprCurNet.getHeight(),0,sprCurNet.getHeight()});
+
     }
 
     @Override
@@ -62,28 +64,27 @@ public class ScrPlay implements Screen, InputProcessor {
         balllocation = sprBall.update();
 
         batch.begin();
-        sprCurNet.setRotation(nMouseDx); //need the rectangle net hitbox to rotate as well
+        sprCurNet.setRotation(nMouseDx);
         sprCurNet.draw(batch);
         batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
 //        polyNet.setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight()/2);
 //        polyNet.setRotation(nMouseDx);
 //        polyNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        polyBall.setPosition(rectBall.getX(), rectBall.getY());
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
         shaperenderer.setProjectionMatrix(camera.combined);
         shaperenderer.setColor(Color.RED);
-        shaperenderer.rect(sprBall.getX(),sprBall.getY(),sprBall.getWidth(),sprBall.getHeight());
-        shaperenderer.polygon(polyNet.getTransformedVertices());//the y coordinate of the bottom of the net needs to be constantly updated as the net stretches to create a hitbox there
+        shaperenderer.polygon(polyNet.getTransformedVertices());
+        shaperenderer.polygon(polyBall.getTransformedVertices());
         shaperenderer.end();
 
         HandleHitDetection();
     }
 
 
-    public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx
-        polyBall = new Polygon(new float[]{0,0,rectBall.getWidth(),0,rectBall.getWidth(),rectBall.getHeight(),0,rectBall.getHeight()});
-        polyBall.setPosition(rectBall.getX(), rectBall.getY());
+    public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
         boolean isOverlapping = Intersector.overlapConvexPolygons(polyBall, polyNet);
         if(isOverlapping){
             System.out.println("overlapping");
