@@ -44,11 +44,10 @@ public class ScrPlay implements Screen, InputProcessor {
         txtball = new Texture("basketball.png");
         sprBall  = new SprBall(txtball,300, 500, 75, 75);
         rectBall = new Rectangle(sprBall.getBoundingRectangle());
-        polyBall = new Polygon(new float[]{0,0,rectBall.getWidth(),0,rectBall.getWidth(),rectBall.getHeight(),0,rectBall.getHeight()});
+        polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.width,sprBall.getY(),sprBall.getX() + sprBall.width, sprBall.getY() + sprBall.height,sprBall.getX(),sprBall.getY() + sprBall.height});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
-        polyNet = new Polygon(new float[]{0,0,sprNet1.getWidth(),0,sprNet1.getWidth(),sprNet1.getHeight(),0,sprNet1.getHeight()});
-
+        polyNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprNet1.getWidth(),sprNet1.getY(),sprNet1.getX() + sprNet1.getWidth(), sprNet1.getY() + sprNet1.getHeight(),sprNet1.getX(),sprNet1.getY() + sprNet1.getHeight()});
     }
 
     @Override
@@ -68,16 +67,18 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet.draw(batch);
         polyNet.setPosition(sprNet1.getX(), sprNet1.getY());
         batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
+
 //        polyNet.setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight()/2);
 //        polyNet.setRotation(nMouseDx);
 //        polyNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
-        polyBall.setPosition(rectBall.getX(), rectBall.getY());
+        polyBall.setPosition(balllocation.x, balllocation.y);
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
         shaperenderer.setProjectionMatrix(camera.combined);
         shaperenderer.setColor(Color.RED);
         shaperenderer.polygon(polyNet.getTransformedVertices());
+        shaperenderer.setColor(Color.ORANGE);
         shaperenderer.polygon(polyBall.getTransformedVertices());
         shaperenderer.end();
 

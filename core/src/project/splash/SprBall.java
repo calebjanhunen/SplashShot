@@ -33,6 +33,7 @@ public class SprBall extends Sprite {
             ballvelocity.y = (float) (ballvelocity.y * -0.9);
             balllocation.y = 0;
         }
+
         return balllocation;
     }
 
