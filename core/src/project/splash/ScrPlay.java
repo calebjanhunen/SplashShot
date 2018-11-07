@@ -67,10 +67,8 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet.draw(batch);
         polyNet.setPosition(sprNet1.getX(), sprNet1.getY());
         batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
-
-//        polyNet.setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight()/2);
-//        polyNet.setRotation(nMouseDx);
-//        polyNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        polyNet.setOrigin(sprNet1.getWidth()/2, sprNet1.getHeight());
+        polyNet.setRotation(nMouseDx);
         polyBall.setPosition(balllocation.x, balllocation.y);
         batch.end();
 
