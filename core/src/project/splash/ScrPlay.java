@@ -47,7 +47,7 @@ public class ScrPlay implements Screen, InputProcessor {
         polyBall = new Polygon(new float[]{0,0,rectBall.getWidth(),0,rectBall.getWidth(),rectBall.getHeight(),0,rectBall.getHeight()});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
-        polyNet = new Polygon(new float[]{0,0,sprCurNet.getWidth(),0,sprCurNet.getWidth(),sprCurNet.getHeight(),0,sprCurNet.getHeight()});
+        polyNet = new Polygon(new float[]{0,0,sprNet1.getWidth(),0,sprNet1.getWidth(),sprNet1.getHeight(),0,sprNet1.getHeight()});
 
     }
 
@@ -66,6 +66,7 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.begin();
         sprCurNet.setRotation(nMouseDx);
         sprCurNet.draw(batch);
+        polyNet.setPosition(sprNet1.getX(), sprNet1.getY());
         batch.draw(sprBall, balllocation.x, balllocation.y, sprBall.width, sprBall.height);
 //        polyNet.setOrigin(arSprNet[i].getWidth()/2, arSprNet[i].getHeight()/2);
 //        polyNet.setRotation(nMouseDx);
