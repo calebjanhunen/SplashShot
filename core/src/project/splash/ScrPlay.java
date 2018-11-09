@@ -34,12 +34,12 @@ public class ScrPlay implements Screen, InputProcessor {
         font.setColor(Color.BLACK);
         ranX1 = r.nextInt(nMaxX - nMinX); // random x coordinate for first net
         ranX2 = r.nextInt(nMaxX - nMinX); // random x coordinate for second net
-        while (ranX1 - ranX2 <= 100){
+        while (ranX1 - ranX2 <= 150 && ranX1 - ranX2 >= -150){
             ranX1 = r.nextInt(nMaxX - nMinX); // random x coordinate for first net
             ranX2 = r.nextInt(nMaxX - nMinX); // random x coordinate for second net
         }
-        sprNet1 = new SprNet(ranX1,100, 200, 200); //First Net
-        sprNet2 = new SprNet(ranX2,400, 200, 200); // Second Net
+        sprNet1 = new SprNet(ranX1,100, 100, 100); //First Net
+        sprNet2 = new SprNet(ranX2,400, 100, 100); // Second Net
         System.out.println(ranX1 + " " + ranX2);
     }
 
