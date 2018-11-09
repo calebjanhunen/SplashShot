@@ -6,35 +6,34 @@ import com.badlogic.gdx.math.Vector2;
 
 public class SprBall extends Sprite {
 
-    Vector2 balllocation, ballvelocity, ballgravity;
+    Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
     Texture txtball, txt;
     Sprite SprBall = new Sprite();
     int width, height;
 
 
-    public SprBall(Texture _txt, int _nX2, int _nY2, int _nW2, int _nH2) {
+    public SprBall(Texture _txt, int _nX, int _nY, int _nW, int _nH) {
         super(_txt);
         this.txt = _txt;
         txtball = new Texture("basketball.png");
-        balllocation = new Vector2(300, 500);
-        ballvelocity = new Vector2((float) 8.0, (float) 10.0);
-        ballgravity = new Vector2(0, (float) 0.5);
-        SprBall.setOrigin(_nX2, _nY2);
-        width = _nW2;
-        height = _nH2;
+        v2balllocation = new Vector2(300, 500);
+        v2ballvelocity = new Vector2((float) 8.0, (float) 10.0);
+        v2ballgravity = new Vector2(0, (float) 0.5);
+        SprBall.setOrigin(_nX, _nY);
+        width = _nW;
+        height = _nH;
         SprBall.setSize(width, height);
     }
 
     public Vector2 update() {
-        balllocation.y += ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
-        ballvelocity.y -= ballgravity.y;
+        v2balllocation.y += v2ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
+        v2ballvelocity.y -= v2ballgravity.y;
 
-        if (balllocation.y < 0) {
-            ballvelocity.y = (float) (ballvelocity.y * -0.9);
-            balllocation.y = 0;
+        if (v2balllocation.y < 0) {
+            v2ballvelocity.y = (float) (v2ballvelocity.y * -0.9);
+            v2balllocation.y = 0;
         }
-
-        return balllocation;
+        return v2balllocation;
     }
 
 }
