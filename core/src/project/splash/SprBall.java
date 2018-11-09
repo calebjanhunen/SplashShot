@@ -9,7 +9,7 @@ public class SprBall extends Sprite {
     Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
     Texture txtball, txt;
     Sprite SprBall = new Sprite();
-    int nX,nY,width, height;
+    int nX,nY,nW,nH;
 
 
     public SprBall(Texture _txt, int _nX, int _nY, int _nW, int _nH) {
@@ -19,10 +19,12 @@ public class SprBall extends Sprite {
         v2balllocation = new Vector2(300, 500);
         v2ballvelocity = new Vector2((float) 8.0, (float) 10.0);
         v2ballgravity = new Vector2(0, (float) 0.5);
-        SprBall.setOrigin(_nX, _nY);
-        width = _nW;
-        height = _nH;
-        SprBall.setSize(width, height);
+        nX = _nX;
+        nY = _nY;
+        SprBall.setOrigin(nX, nY);
+        nW = _nW;
+        nH = _nH;
+        SprBall.setSize(nW, nH);
     }
 
     public Vector2 update() {

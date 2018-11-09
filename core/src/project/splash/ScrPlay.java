@@ -44,7 +44,7 @@ public class ScrPlay implements Screen, InputProcessor {
         txtball = new Texture("basketball.png");
         sprBall  = new SprBall(txtball,300, 500, 75, 75);
         rectBall = new Rectangle(sprBall.getBoundingRectangle());
-        polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.width,sprBall.getY(),sprBall.getX() + sprBall.width, sprBall.getY() + sprBall.height,sprBall.getX(),sprBall.getY() + sprBall.height});
+        polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
         sprCurNet = sprNet1.update(0, 250, 250);
@@ -67,7 +67,7 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.begin();
         sprCurNet.setRotation(nMouseDx);
         sprCurNet.draw(batch);
-        batch.draw(sprBall, v2balllocation.x, v2balllocation.y, sprBall.width, sprBall.height);
+        batch.draw(sprBall, v2balllocation.x, v2balllocation.y, sprBall.nW, sprBall.nH);
         polyNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
         polyNet.setRotation(nMouseDx);
