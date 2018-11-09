@@ -12,7 +12,7 @@ public class SprNet extends Sprite {
     String sNet;
     Sprite arSprNet[] = new Sprite[10];
     int index;
-
+    int nW, nH, nX, nY;
     public SprNet(int _nX, int _nY, int _nW, int _nH) {
         super(new Texture(Gdx.files.internal("NetSpriteSheet.png")));
         for (int i = 0; i < 10; i++) {
@@ -26,7 +26,9 @@ public class SprNet extends Sprite {
         }
     }
 
-    public Sprite update(int _index) {
+    public Sprite update(int _index, int _nW, int _nH) {
+        nW = _nW;
+        nH = _nH;
         index = _index;
         return arSprNet[index];
     }

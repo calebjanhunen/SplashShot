@@ -47,8 +47,9 @@ public class ScrPlay implements Screen, InputProcessor {
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.width,sprBall.getY(),sprBall.getX() + sprBall.width, sprBall.getY() + sprBall.height,sprBall.getX(),sprBall.getY() + sprBall.height});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
-        sprCurNet = sprNet1.update(iSpr);
-        polyNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprNet1.getWidth(),sprNet1.getY(),sprNet1.getX() + sprNet1.getWidth(), sprNet1.getY() + sprNet1.getHeight(),sprNet1.getX(),sprNet1.getY() + sprNet1.getHeight()});
+        sprCurNet = sprNet1.update(0, 250, 250);
+        //polyNet = new Polygon(new float[]{sprCurNet.getX(),sprCurNet.getY(),sprCurNet.getX() + sprCurNet.getWidth(),sprCurNet.getY(),sprCurNet.getX() + sprCurNet.getWidth(), sprCurNet.getY() + sprCurNet.getHeight(),sprCurNet.getX(),sprCurNet.getY() + sprCurNet.getHeight()});
+        polyNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight(),sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight()});
     }
 
     @Override
@@ -60,15 +61,15 @@ public class ScrPlay implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sprCurNet = sprNet1.update(iSpr);
+        sprCurNet = sprNet1.update(iSpr, 250, 250);
         v2balllocation = sprBall.update();
 
         batch.begin();
         sprCurNet.setRotation(nMouseDx);
         sprCurNet.draw(batch);
-        polyNet.setPosition(sprNet1.getX(), sprNet1.getY());
         batch.draw(sprBall, v2balllocation.x, v2balllocation.y, sprBall.width, sprBall.height);
-        polyNet.setOrigin(sprNet1.getWidth()/2, sprNet1.getHeight());
+        polyNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
         polyNet.setRotation(nMouseDx);
         polyBall.setPosition(v2balllocation.x, v2balllocation.y);
         batch.end();

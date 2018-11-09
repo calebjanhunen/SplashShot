@@ -9,7 +9,7 @@ public class SprBall extends Sprite {
     Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
     Texture txtball, txt;
     Sprite SprBall = new Sprite();
-    int width, height;
+    int nX,nY,width, height;
 
 
     public SprBall(Texture _txt, int _nX, int _nY, int _nW, int _nH) {
