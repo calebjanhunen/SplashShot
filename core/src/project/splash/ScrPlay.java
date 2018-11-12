@@ -20,7 +20,6 @@ public class ScrPlay implements Screen, InputProcessor {
     OrthographicCamera camera;
     Random r = new Random();
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, ranX1, ranX2;
-    int nMinX = 200, nMaxX = 400;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
 
@@ -32,15 +31,19 @@ public class ScrPlay implements Screen, InputProcessor {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        ranX1 = r.nextInt(nMaxX - nMinX); // random x coordinate for first net
-        ranX2 = r.nextInt(nMaxX - nMinX); // random x coordinate for second net
-        while (ranX1 - ranX2 <= 150 && ranX1 - ranX2 >= -150){
-            ranX1 = r.nextInt(nMaxX - nMinX); // random x coordinate for first net
-            ranX2 = r.nextInt(nMaxX - nMinX); // random x coordinate for second net
+        ranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
+        ranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
+        while (Math.abs(ranX1 - ranX2) <= 250){
+            ranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
+            ranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
         }
-        sprNet1 = new SprNet(ranX1,100, 100, 100); //First Net
-        sprNet2 = new SprNet(ranX2,400, 100, 100); // Second Net
-        System.out.println(ranX1 + " " + ranX2);
+        if (Math.abs(ranX1 - ranX2) > 250){
+            sprNet1 = new SprNet(ranX1,100, 150, 150); //First Net
+            sprNet2 = new SprNet(ranX2,400, 150, 150); // Second Net
+
+        }
+
+        System.out.println(ranX1 + " " + ranX2 + "    " + Math.abs(ranX1 - ranX2));
     }
 
     @Override
