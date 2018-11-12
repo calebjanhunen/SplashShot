@@ -48,7 +48,6 @@ public class ScrPlay implements Screen, InputProcessor {
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
         sprCurNet = sprNet1.update(0, 250, 250);
-        //polyNet = new Polygon(new float[]{sprCurNet.getX(),sprCurNet.getY(),sprCurNet.getX() + sprCurNet.getWidth(),sprCurNet.getY(),sprCurNet.getX() + sprCurNet.getWidth(), sprCurNet.getY() + sprCurNet.getHeight(),sprCurNet.getX(),sprCurNet.getY() + sprCurNet.getHeight()});
         polyNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight(),sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight()});
     }
 
