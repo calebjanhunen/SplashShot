@@ -17,8 +17,8 @@ public class SprBall extends Sprite {
         this.txt = _txt;
         txtball = new Texture("basketball.png");
         v2balllocation = new Vector2(300, 500);
-        v2ballvelocity = new Vector2((float) 8.0, (float) 10.0);
-        v2ballgravity = new Vector2(0, (float) 0.5);
+        v2ballvelocity = new Vector2((float) 0.0, (float) 10.0);
+        v2ballgravity = new Vector2(0, (float) -0.5);
         nX = _nX;
         nY = _nY;
         SprBall.setOrigin(nX, nY);
@@ -28,10 +28,8 @@ public class SprBall extends Sprite {
     }
 
     public Vector2 update() {
-        v2balllocation.y += v2ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
-        v2ballvelocity.y -= v2ballgravity.y;
-//        v2balllocation.add(v2ballvelocity);
-//        v2ballvelocity.add(v2ballgravity);
+        v2ballvelocity.add(v2ballgravity); //  https://www.openprocessing.org/sketch/67284#
+        v2balllocation.add(v2ballvelocity);
 
         if (v2balllocation.y < 0) {
             v2ballvelocity.y = (float) (v2ballvelocity.y * -0.9);
