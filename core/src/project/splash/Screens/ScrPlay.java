@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import project.splash.GamMain;
 import project.splash.Objects.SprNet;
 
@@ -24,6 +25,7 @@ public class ScrPlay implements Screen, InputProcessor {
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, ranX1, ranX2;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
+    ShapeRenderer sr = new ShapeRenderer();
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -63,8 +65,14 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet.setRotation(nMouseDx);
         sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
-        sprCurNet2.draw(batch);
+        //sprCurNet2.draw(batch);
         batch.end();
+        batch.setProjectionMatrix(camera.combined);
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setProjectionMatrix(camera.combined);
+        sr.setColor(Color.RED);
+        sr.rect(100,100,100,100);
+        sr.end();
     }
 
     @Override
