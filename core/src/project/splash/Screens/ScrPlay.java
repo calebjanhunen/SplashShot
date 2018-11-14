@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import project.splash.GamMain;
 import project.splash.Objects.SprNet;
 
+import java.awt.*;
 import java.util.Random;
 
 
@@ -22,10 +23,11 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r = new Random();
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, ranX1, ranX2;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
     ShapeRenderer sr = new ShapeRenderer();
+    Polygon polyBar;
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -35,24 +37,40 @@ public class ScrPlay implements Screen, InputProcessor {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        ranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
-        ranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
-        while (Math.abs(ranX1 - ranX2) <= 250){
-            ranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
-            ranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
+        polyBar = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(),
+                sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight(),
+                sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight()});
+        nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
+        nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
+        while (Math.abs(nranX1 - nranX2) <= 250){
+            nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
+            nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
         }
-        if (Math.abs(ranX1 - ranX2) > 250){
-            sprNet1 = new SprNet(ranX1,100, 150, 150); //First Net
-            sprNet2 = new SprNet(ranX2,400, 150, 150); // Second Net
+        if (Math.abs(nranX1 - nranX2) > 250){
+            sprNet1 = new SprNet(nranX1,100, 150, 150); //First Net
+            sprNet2 = new SprNet(nranX2,400, 150, 150); // Second Net
 
         }
 
-        System.out.println(ranX1 + " " + ranX2 + "    " + Math.abs(ranX1 - ranX2));
+        System.out.println(nranX1 + " " + nranX2 + "    " + Math.abs(nranX1 - nranX2));
     }
 
     @Override
     public void show() {
 
+    }
+    private void powerBar(){
+        if (iSpr >= 9){
+            nMouseDy = 180;
+        } else if (iSpr <=0){
+            nMouseDy = 0;
+        }
+        sr.setColor(Color.BLACK);
+
+        sr.rect(sprCurNet.getX()-10,sprCurNet.getY()+50,10,90);
+        sr.setColor(Color.ORANGE);
+        sr.rect(sprCurNet.getX()-10,sprCurNet.getY()+50,10,nMouseDy/2);
+        System.out.println(iSpr);
     }
 
     @Override
@@ -67,11 +85,9 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet.draw(batch);
         //sprCurNet2.draw(batch);
         batch.end();
+        sr.begin(ShapeRenderer.ShapeType.Line);
         batch.setProjectionMatrix(camera.combined);
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setProjectionMatrix(camera.combined);
-        sr.setColor(Color.RED);
-        sr.rect(100,100,100,100);
+        powerBar();
         sr.end();
     }
 
@@ -125,6 +141,7 @@ public class ScrPlay implements Screen, InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
+        nMouseDy = 0;
         return false;
     }
 
