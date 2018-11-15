@@ -37,9 +37,6 @@ public class ScrPlay implements Screen, InputProcessor {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-        polyBar = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(),
-                sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight(),
-                sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight()});
         nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
         nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
         while (Math.abs(nranX1 - nranX2) <= 250){
@@ -57,19 +54,18 @@ public class ScrPlay implements Screen, InputProcessor {
 
     @Override
     public void show() {
-
     }
+
     private void powerBar(){
         if (iSpr >= 9){
             nMouseDy = 180;
-        } else if (iSpr <=0){
+        } else if (nMouseDy <=0){
             nMouseDy = 0;
         }
         sr.setColor(Color.BLACK);
-
-        sr.rect(sprCurNet.getX()-10,sprCurNet.getY()+50,10,90);
-        sr.setColor(Color.ORANGE);
-        sr.rect(sprCurNet.getX()-10,sprCurNet.getY()+50,10,nMouseDy/2);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180);
+        sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy);
         System.out.println(iSpr);
     }
 
@@ -77,15 +73,15 @@ public class ScrPlay implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sprCurNet = sprNet1.update(iSpr);
-        sprCurNet2 = sprNet2.update(iSpr);
+        sprCurNet = sprNet1.update(iSpr, 150, 150);
+        sprCurNet2 = sprNet2.update(iSpr, 150, 150);
         batch.begin();
         sprCurNet.setRotation(nMouseDx);
         sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
         //sprCurNet2.draw(batch);
         batch.end();
-        sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.begin(ShapeRenderer.ShapeType.Filled);
         batch.setProjectionMatrix(camera.combined);
         powerBar();
         sr.end();
