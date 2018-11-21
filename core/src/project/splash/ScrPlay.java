@@ -43,12 +43,11 @@ public class ScrPlay implements Screen, InputProcessor {
         shaperenderer = new ShapeRenderer();
         txtball = new Texture("basketball.png");
         sprBall  = new SprBall(txtball,300, 500, 75, 75);
-        rectBall = new Rectangle(sprBall.getBoundingRectangle());
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
         sprCurNet = sprNet1.update(0, 250, 250);
-        polyNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight(),sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight()});
+        polyNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth() -170,sprNet1.getY(),sprNet1.getX() + sprCurNet.getWidth()-170, sprNet1.getY() + sprCurNet.getHeight()-245,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight()-245});
     }
 
     @Override
@@ -83,7 +82,6 @@ public class ScrPlay implements Screen, InputProcessor {
 
         HandleHitDetection();
     }
-
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
         boolean isOverlapping = Intersector.overlapConvexPolygons(polyBall, polyNet);
