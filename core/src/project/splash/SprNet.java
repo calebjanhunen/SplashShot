@@ -13,7 +13,7 @@ public class SprNet extends Sprite {
     Sprite arSprNet[] = new Sprite[10];
     int index;
     int nW, nH, nX, nY;
-    public SprNet(int _nX, int _nY, int _nW, int _nH) {
+    public SprNet(int _nX, int _nY, int _nW, int _nH) { //create an array of polygon nets (hard coded) to cover the bottom half of the net
         super(new Texture(Gdx.files.internal("NetSpriteSheet.png")));
         for (int i = 0; i < 10; i++) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("SpriteSheet/NetSpriteSheet.atlas"));
