@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -22,8 +21,7 @@ public class ScrPlay implements Screen, InputProcessor {
     SpriteBatch batch;
     private BitmapFont font;
     OrthographicCamera camera;
-    Rectangle rectBall;
-    Polygon polyNet, polyBall;
+    Polygon polyBotNet, polyTopNet, polyBall;
     ShapeRenderer shaperenderer;
     Texture txtball;
     Vector2 v2balllocation;
@@ -42,14 +40,15 @@ public class ScrPlay implements Screen, InputProcessor {
         font.setColor(Color.BLACK);
         shaperenderer = new ShapeRenderer();
         txtball = new Texture("basketball.png");
-        sprBall  = new SprBall(txtball,300, 500, 75, 75);
+        sprBall  = new SprBall(txtball,200, 500, 75, 75);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
         sprCurNet = sprNet1.update(0, 250, 250);
-        polyNet = new Polygon(new float[]{100,92,220,92,250,250,200,97,50,97,0,250,30,92});
-
+        polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 13,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 13});
+        polyTopNet = new Polygon(new float[]{sprNet1.getX() + 8,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 8,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 8, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 8,sprNet1.getY() + sprCurNet.getHeight() - 2});
     }
+
 
     @Override
     public void show() {
@@ -67,16 +66,21 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet.setRotation(nMouseDx);
         sprCurNet.draw(batch);
         batch.draw(sprBall, v2balllocation.x, v2balllocation.y, sprBall.nW, sprBall.nH);
-        polyNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
-        polyNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
-        polyNet.setRotation(nMouseDx);
+        polyBotNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyBotNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        polyBotNet.setRotation(nMouseDx);
+        polyTopNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyTopNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        polyTopNet.setRotation(nMouseDx);
         polyBall.setPosition(v2balllocation.x, v2balllocation.y);
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
         shaperenderer.setProjectionMatrix(camera.combined);
-        shaperenderer.setColor(Color.RED);
-        shaperenderer.polygon(polyNet.getTransformedVertices());
+        shaperenderer.setColor(Color.PINK);
+        shaperenderer.polygon(polyBotNet.getTransformedVertices());
+        shaperenderer.setColor(Color.BROWN);
+        shaperenderer.polygon(polyTopNet.getTransformedVertices());
         shaperenderer.setColor(Color.ORANGE);
         shaperenderer.polygon(polyBall.getTransformedVertices());
         shaperenderer.end();
@@ -85,9 +89,14 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
-        boolean isOverlapping = Intersector.overlapConvexPolygons(polyBall, polyNet);
-        if(isOverlapping){
-            System.out.println("overlapping");
+        boolean isOverlappingBotNet = Intersector.overlapConvexPolygons(polyBall, polyBotNet); //move this to constructor
+        boolean isOverlappingTopNet = Intersector.overlapConvexPolygons(polyBall, polyTopNet);
+        if(isOverlappingBotNet){
+            System.out.println("overlapping bottom");
+            v2balllocation.y = v2balllocation.y * -1;
+        }
+        if(isOverlappingTopNet){
+            System.out.println("overlapping top");
         }
     }
 

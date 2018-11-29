@@ -16,7 +16,7 @@ public class SprBall extends Sprite {
         super(_txt);
         this.txt = _txt;
         txtball = new Texture("basketball.png");
-        v2balllocation = new Vector2(300, 500);
+        v2balllocation = new Vector2(190, 300);
         v2ballvelocity = new Vector2((float) 0.0, (float) 10.0);
         v2ballgravity = new Vector2(0, (float) -0.5);
         nX = _nX;
@@ -37,5 +37,4 @@ public class SprBall extends Sprite {
         }
         return v2balllocation;
     }
-
 }
