@@ -26,6 +26,7 @@ public class ScrPlay implements Screen, InputProcessor {
     Texture txtball;
     Vector2 v2balllocation;
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
+    boolean isOverlappingBotNet, isOverlappingTopNet;
     SprNet sprNet1;
     Sprite sprCurNet;
     SprBall sprBall;
@@ -46,7 +47,7 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet = new Sprite();
         sprCurNet = sprNet1.update(0, 250, 250);
         polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 13,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 13});
-        polyTopNet = new Polygon(new float[]{sprNet1.getX() + 8,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 8,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 8, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 8,sprNet1.getY() + sprCurNet.getHeight() - 2});
+        polyTopNet = new Polygon(new float[]{sprNet1.getX() + 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 20,sprNet1.getY() + sprCurNet.getHeight() - 2});
     }
 
 
@@ -89,11 +90,11 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
-        boolean isOverlappingBotNet = Intersector.overlapConvexPolygons(polyBall, polyBotNet); //move this to constructor
-        boolean isOverlappingTopNet = Intersector.overlapConvexPolygons(polyBall, polyTopNet);
+        isOverlappingBotNet = Intersector.overlapConvexPolygons(polyBall, polyBotNet);
+        isOverlappingTopNet = Intersector.overlapConvexPolygons(polyBall, polyTopNet);
         if(isOverlappingBotNet){
             System.out.println("overlapping bottom");
-            v2balllocation.y = v2balllocation.y * -1;
+            v2balllocation.y += v2balllocation.y;
         }
         if(isOverlappingTopNet){
             System.out.println("overlapping top");
