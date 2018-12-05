@@ -59,7 +59,7 @@ public class ScrPlay implements Screen, InputProcessor {
     private void powerBar(){
         if (iSpr >= 9){
             nMouseDy = 180;
-        } else if (nMouseDy <=0){
+        } else if (nMouseDy <=0) {
             nMouseDy = 0;
         }
         sr.setColor(Color.BLACK);
@@ -67,6 +67,30 @@ public class ScrPlay implements Screen, InputProcessor {
         sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
         sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy);
         System.out.println(iSpr);
+    }
+
+    private void trajectoryArrow(){
+        float fY, fX, fX2, fY2, fFhcaw;
+        if (iSpr >= 9){
+            nMouseDy = 180;
+        } else if (nMouseDy <=0) {
+            nMouseDy = 0;
+        }
+//        if (nMouseDx >= 90){
+//            nMouseDx = 90;
+//        } else if (nMouseDx <=-90){
+//            nMouseDy = -90;
+//        }
+        fX = sprCurNet.getX() + sprCurNet.getWidth() / 2;
+        fY = sprCurNet.getY() + sprCurNet.getHeight();
+        fX2 = (-nMouseDx*2 + nranX1) + (sprCurNet.getWidth() / 2);
+        fY2 = ((nMouseDy-nMouseDx) + (sprCurNet.getHeight() * 2) - 50);
+        //fY2 = ;
+        sr.setColor(0.2f, 0.2f, 0.2f, 1.0f);
+        if (nMouseDy > 0) {
+            sr.rectLine(fX, fY, fX2, fY2, 3);
+        }
+        System.out.println(nMouseDx);
     }
 
     @Override
@@ -84,6 +108,7 @@ public class ScrPlay implements Screen, InputProcessor {
         sr.begin(ShapeRenderer.ShapeType.Filled);
         batch.setProjectionMatrix(camera.combined);
         powerBar();
+        trajectoryArrow();
         sr.end();
     }
 
