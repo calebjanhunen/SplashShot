@@ -40,8 +40,7 @@ public class ScrPlay implements Screen, InputProcessor {
         font = new BitmapFont();
         font.setColor(Color.BLACK);
         shaperenderer = new ShapeRenderer();
-        txtball = new Texture("basketball.png");
-        sprBall  = new SprBall(txtball,200, 500, 75, 75);
+        sprBall  = new SprBall(200, 500, 75, 75);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprNet1 = new SprNet(100,100, 250, 250);
         sprCurNet = new Sprite();
@@ -58,32 +57,39 @@ public class ScrPlay implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+        System.out.println(sprBall.getWidth() + " " + sprBall.getHeight());
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if (isOverlappingBotNet) {
+        //if (isOverlappingBotNet) {
             sprCurNet = sprNet1.update(iSpr, 250, 250);
-        }
+        //}
         v2balllocation = sprBall.update();
 
         batch.begin();
-        if (isOverlappingBotNet) {
+        //if (isOverlappingBotNet) {
             sprCurNet.setRotation(nMouseDx);
             polyBotNet.setRotation(nMouseDx);
             polyTopNet.setRotation(nMouseDx);
+            polyBall.setRotation(nMouseDx);
+            sprBall.setRotation(nMouseDx);
 
-        }
+        //}
+        sprBall.setRotation(nMouseDx);
         batch.draw(sprBall, v2balllocation.x, v2balllocation.y, sprBall.nW, sprBall.nH);
         sprCurNet.draw(batch);
         polyBotNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyBotNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
         polyTopNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyTopNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
-        polyBall.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyBall.setOrigin(sprBall.getWidth()/2, sprBall.getHeight());
         polyBall.setPosition(v2balllocation.x, v2balllocation.y);
-        polyBall.setRotation(nMouseDx);
+        sprBall.setOrigin(sprBall.getWidth() / 2, sprBall.getHeight());
+
+        System.out.println((sprCurNet.getX() + sprCurNet.getWidth()/2) + " " + (sprCurNet.getY() + sprCurNet.getHeight()));
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
+        shaperenderer.rect(sprCurNet.getX() + sprCurNet.getWidth()/2, sprCurNet.getY() + sprCurNet.getHeight(), 10 ,10);
         shaperenderer.setProjectionMatrix(camera.combined);
         shaperenderer.setColor(Color.PINK);
         shaperenderer.polygon(polyBotNet.getTransformedVertices());
@@ -161,7 +167,7 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         nMouseY = Gdx.input.getY();
         nMouseX = Gdx.input.getX();
-        return false;
+        return true;
     }
 
     @Override
@@ -191,7 +197,7 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (nMouseDx <= -90){
             nMouseDx = -90;
         }
-        return false;
+        return true;
     }
 
     @Override
