@@ -11,12 +11,11 @@ public class SprBall extends Sprite {
     Sprite SprBall = new Sprite();
     int nX,nY,nW,nH;
 
-
     public SprBall(Texture _txt, int _nX, int _nY, int _nW, int _nH) {
         super(_txt);
         this.txt = _txt;
         txtball = new Texture("basketball.png");
-        v2balllocation = new Vector2(190, 300);
+        v2balllocation = new Vector2(190, 400);
         v2ballvelocity = new Vector2((float) 0.0, (float) 10.0);
         v2ballgravity = new Vector2(0, (float) -0.5);
         nX = _nX;
@@ -35,6 +34,13 @@ public class SprBall extends Sprite {
             v2ballvelocity.y = (float) (v2ballvelocity.y * -0.9);
             v2balllocation.y = 0;
         }
+
         return v2balllocation;
+    }
+    public void setV2ballvelocity(Vector2 v2velocity){
+        v2ballvelocity = v2velocity ;
+    }
+    public void setV2ballgravity(Vector2 v2gravity){
+        v2ballgravity = v2gravity ;
     }
 }

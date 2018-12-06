@@ -60,20 +60,27 @@ public class ScrPlay implements Screen, InputProcessor {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sprCurNet = sprNet1.update(iSpr, 250, 250);
+        if (isOverlappingBotNet) {
+            sprCurNet = sprNet1.update(iSpr, 250, 250);
+        }
         v2balllocation = sprBall.update();
 
         batch.begin();
-        sprCurNet.setRotation(nMouseDx);
-        sprCurNet.draw(batch);
+        if (isOverlappingBotNet) {
+            sprCurNet.setRotation(nMouseDx);
+            polyBotNet.setRotation(nMouseDx);
+            polyTopNet.setRotation(nMouseDx);
+
+        }
         batch.draw(sprBall, v2balllocation.x, v2balllocation.y, sprBall.nW, sprBall.nH);
+        sprCurNet.draw(batch);
         polyBotNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyBotNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
-        polyBotNet.setRotation(nMouseDx);
         polyTopNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyTopNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
-        polyTopNet.setRotation(nMouseDx);
+        polyBall.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyBall.setPosition(v2balllocation.x, v2balllocation.y);
+        polyBall.setRotation(nMouseDx);
         batch.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -92,14 +99,23 @@ public class ScrPlay implements Screen, InputProcessor {
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
         isOverlappingBotNet = Intersector.overlapConvexPolygons(polyBall, polyBotNet);
         isOverlappingTopNet = Intersector.overlapConvexPolygons(polyBall, polyTopNet);
-        if(isOverlappingBotNet){
-            System.out.println("overlapping bottom");
-            v2balllocation.y += v2balllocation.y;
+        if(isOverlappingTopNet) {
+            if (isOverlappingBotNet) {
+                sprBall.setV2ballgravity(new Vector2(0, (float) 0));
+                sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
+//                v2balllocation = new Vector2((int)polyBotNet.getX(), (int)(polyBotNet.getY()));
+                v2balllocation.y = sprCurNet.getY()+160;
+                v2balllocation.x = sprCurNet.getX()+90;
+
+
+            }
         }
         if(isOverlappingTopNet){
             System.out.println("overlapping top");
         }
     }
+
+
 
     @Override
     public void resize(int width, int height) {
