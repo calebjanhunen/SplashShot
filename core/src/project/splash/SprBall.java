@@ -7,8 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 public class SprBall extends Sprite {
 
     Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
-    Texture txtball, txt;
-    Sprite SprBall = new Sprite();
     int nX,nY,nW,nH;
 
     public SprBall(int _nX, int _nY, int _nW, int _nH) {
