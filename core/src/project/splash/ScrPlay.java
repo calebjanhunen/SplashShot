@@ -201,6 +201,9 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (iDiv < 0){
             iSpr = 0;
         }
+        if (nMouseDy >= 225){
+            nMouseDy = 225;
+        }
 
         //net x direction
         nMouseX2 = Gdx.input.getX();
