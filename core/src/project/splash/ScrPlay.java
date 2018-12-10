@@ -121,7 +121,7 @@ public class ScrPlay implements Screen, InputProcessor {
             isOverlapping = true;
             isShot = false;
         }
-//        System.out.println(nMouseDy/9);
+        System.out.println(nMouseDy/9);
     }
 
     public void HandleShooting(){
