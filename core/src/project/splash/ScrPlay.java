@@ -121,15 +121,19 @@ public class ScrPlay implements Screen, InputProcessor {
             isOverlapping = true;
             isShot = false;
         }
-        System.out.println(nMouseDy/9);
+//        System.out.println(nMouseDy/9);
     }
 
     public void HandleShooting(){
         if (isShot && isOverlappingBotNet && (nMouseDy/9) >= 6.0){
             isOverlapping = false;
             sprBall.setV2ballgravity(new Vector2((float) 0, (float) -0.5));
-            sprBall.setV2ballvelocity(new Vector2((float) 0, (float) nMouseDy/9));
+            sprBall.setV2ballvelocity(new Vector2((float) -(nMouseDx/3), (float) nMouseDy/9));
+            if (Math.abs(nMouseDx) > 60){
+                sprBall.setV2ballvelocity(new Vector2((float) -(nMouseDx/2), (float) nMouseDy/9));
+            }
         }
+        System.out.println(-(nMouseDx));
     }
 
 
