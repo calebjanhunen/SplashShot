@@ -148,6 +148,7 @@ public class ScrPlay implements Screen, InputProcessor {
                 sprBall.setV2ballvelocity(new Vector2(ballVelX, (float) nMouseDy/9));
             } else if (sprBall.getX() <= 0 && ballVelX == (nMouseDx / 3)) {
                 ballVelX = -(nMouseDx/3);
+                
                 sprBall.setV2ballvelocity(new Vector2(ballVelX, (float) nMouseDy/9));
             }
         System.out.println(sprBall.getX());
