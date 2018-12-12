@@ -29,6 +29,7 @@ public class ScrPlay implements Screen, InputProcessor {
     SprNet sprNet1;
     Sprite sprCurNet;
     SprBall sprBall;
+    float ballVelX;
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -125,18 +126,30 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void HandleShooting(){
-        if (isShot && isOverlappingBotNet && (nMouseDy/9) >= 6.0){
-            isOverlapping = false;
-            sprBall.setV2ballgravity(new Vector2((float) 0, (float) -0.5));
-            sprBall.setV2ballvelocity(new Vector2((float) -(nMouseDx/3), (float) nMouseDy/9));
-            if (Math.abs(nMouseDx) > 60){
-                sprBall.setV2ballvelocity(new Vector2((float) -(nMouseDx/2), (float) nMouseDy/9));
+        if (isShot && isOverlappingBotNet && (nMouseDy/9) >= 4.0) {
+            if (sprBall.getX() > 0 && sprBall.getX() < Gdx.graphics.getWidth()) {
+                ballVelX = -(nMouseDx/3);
+                isOverlapping = false;
+                sprBall.setV2ballgravity(new Vector2((float) 0, (float) -0.5));
+                sprBall.setV2ballvelocity(new Vector2(ballVelX, (float) nMouseDy / 9));
             }
-            if (sprBall.getX() <= Gdx.graphics.getWidth(){
-               sprBall.setV2ballvelocity(new Vector2((float) (nMouseDx/3), (float) nMouseDy/9));
-            }
-
         }
+        //if ball hits right side of window
+        if (sprBall.getX() >= Gdx.graphics.getWidth() && ballVelX == -(nMouseDx/3)){
+            ballVelX = (nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX, (float) nMouseDy/9));
+        } else if (sprBall.getX() >= Gdx.graphics.getWidth() && ballVelX == (nMouseDx/3)) {
+            ballVelX = -(nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX, (float) nMouseDy/9));
+        }
+        //if ball hits left side of window
+            if (sprBall.getX() <= 0 && ballVelX == -(nMouseDx / 3)) {
+                ballVelX = (nMouseDx/3);
+                sprBall.setV2ballvelocity(new Vector2(ballVelX, (float) nMouseDy/9));
+            } else if (sprBall.getX() <= 0 && ballVelX == (nMouseDx / 3)) {
+                ballVelX = -(nMouseDx/3);
+                sprBall.setV2ballvelocity(new Vector2(ballVelX, (float) nMouseDy/9));
+            }
         System.out.println(sprBall.getX());
     }
 
