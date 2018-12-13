@@ -1,5 +1,6 @@
 package project.splash;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -39,4 +40,5 @@ public class SprBall extends Sprite {
     public void setV2ballgravity(Vector2 v2gravity){
         v2ballgravity = v2gravity ;
     }
+
 }
