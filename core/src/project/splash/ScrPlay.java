@@ -6,9 +6,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
 
@@ -22,6 +24,11 @@ public class ScrPlay implements Screen, InputProcessor {
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, ranX1, ranX2;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
+    Texture txtball;
+    Sprite sprBall;
+    Vector2 balllocation, ballvelocity, ballgravity;
+    int nBallWidth = 100, nBallHeight = 100;
+
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -43,7 +50,11 @@ public class ScrPlay implements Screen, InputProcessor {
 
         }
 
-        System.out.println(ranX1 + " " + ranX2 + "    " + Math.abs(ranX1 - ranX2));
+        txtball = new Texture("basketball.png");
+        sprBall = new Sprite(txtball);
+        balllocation = new Vector2(300,300);
+        ballvelocity = new Vector2((float)8.0,(float)10.0);
+        ballgravity = new Vector2(0,(float) 0.5);
     }
 
     @Override
@@ -62,7 +73,20 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
         sprCurNet2.draw(batch);
+        batch.draw(txtball, balllocation.x, balllocation.y, nBallWidth, nBallHeight); //ball
         batch.end();
+
+        HandleBouncing();
+    }
+
+    public void HandleBouncing(){
+        balllocation.y += ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
+        ballvelocity.y -= ballgravity.y;
+
+        if (balllocation.y < 0) {
+            ballvelocity.y = (float)(ballvelocity.y * -0.9);
+            balllocation.y = 0;
+        }
     }
 
     @Override
@@ -88,6 +112,7 @@ public class ScrPlay implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
+        txtball.dispose();
     }
 
     @Override
@@ -152,4 +177,6 @@ public class ScrPlay implements Screen, InputProcessor {
         return false;
     }
 }
+
+
 
