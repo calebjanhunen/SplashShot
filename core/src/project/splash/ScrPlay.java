@@ -100,6 +100,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
         HandleHitDetection();
         HandleShooting();
+        HandleWallHit();
     }
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
@@ -135,6 +136,9 @@ public class ScrPlay implements Screen, InputProcessor {
                 sprBall.setV2ballvelocity(new Vector2(ballVelX, ballVelY));
             }
         }
+    }
+
+    public void HandleWallHit(){
         if (sprBall.getX() >= Gdx.graphics.getWidth() || sprBall.getX() <= 0){
             isTouchingWall = true;
         } else {
@@ -153,17 +157,15 @@ public class ScrPlay implements Screen, InputProcessor {
             sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
         }
         //if ball hits left side of window
-            if (sprBall.getX() <= 0 && ballVelX == -(nMouseDx / 3)) {
-                ballVelX = (nMouseDx/3);
-                sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
-            } else if (sprBall.getX() <= 0 && ballVelX == (nMouseDx / 3)) {
-                ballVelX = -(nMouseDx/3);
-                sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
-            }
+        if (sprBall.getX() <= 0 && ballVelX == -(nMouseDx / 3)) {
+            ballVelX = (nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
+        } else if (sprBall.getX() <= 0 && ballVelX == (nMouseDx / 3)) {
+            ballVelX = -(nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
+        }
         System.out.println(ballVelY);
     }
-
-
 
     @Override
     public void resize(int width, int height) {
