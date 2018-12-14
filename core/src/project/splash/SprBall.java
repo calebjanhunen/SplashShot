@@ -30,8 +30,6 @@ public class SprBall extends Sprite {
     public Vector2 update() {
         v2balllocation.y += v2ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
         v2ballvelocity.y -= v2ballgravity.y;
-//        v2balllocation.add(v2ballvelocity);
-//        v2ballvelocity.add(v2ballgravity);
 
         if (v2balllocation.y < 0) {
             v2ballvelocity.y = (float) (v2ballvelocity.y * -0.9);
