@@ -68,11 +68,11 @@ public class ScrPlay implements Screen, InputProcessor {
 
         sr.begin(ShapeRenderer.ShapeType.Filled);
         batch.setProjectionMatrix(camera.combined);
-        trajectoryArrow();
+        TrajectoryArrow();
         sr.end();
     }
 
-    private void trajectoryArrow(){
+    private void TrajectoryArrow(){
         float fY, fX, fX2, fY2;
         if (iSpr >= 9){
             nMouseDy = 180;
