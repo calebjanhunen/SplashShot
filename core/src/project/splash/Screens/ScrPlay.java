@@ -69,29 +69,6 @@ public class ScrPlay implements Screen, InputProcessor {
         System.out.println(iSpr);
     }
 
-    private void trajectoryArrow(){
-        float fY, fX, fX2, fY2, fFhcaw;
-        if (iSpr >= 9){
-            nMouseDy = 180;
-        } else if (nMouseDy <=0) {
-            nMouseDy = 0;
-        }
-//        if (nMouseDx >= 90){
-//            nMouseDx = 90;
-//        } else if (nMouseDx <=-90){
-//            nMouseDy = -90;
-//        }
-        fX = sprCurNet.getX() + sprCurNet.getWidth() / 2;
-        fY = sprCurNet.getY() + sprCurNet.getHeight();
-        fX2 = (-nMouseDx*2 + nranX1) + (sprCurNet.getWidth() / 2);
-        fY2 = ((nMouseDy-nMouseDx) + (sprCurNet.getHeight() * 2) - 50);
-        //fY2 = ;
-        sr.setColor(0.2f, 0.2f, 0.2f, 1.0f);
-        if (nMouseDy > 0) {
-            sr.rectLine(fX, fY, fX2, fY2, 3);
-        }
-        System.out.println(nMouseDx);
-    }
 
     @Override
     public void render(float delta) {
@@ -108,7 +85,6 @@ public class ScrPlay implements Screen, InputProcessor {
         sr.begin(ShapeRenderer.ShapeType.Filled);
         batch.setProjectionMatrix(camera.combined);
         powerBar();
-        trajectoryArrow();
         sr.end();
     }
 
