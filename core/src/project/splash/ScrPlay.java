@@ -133,7 +133,6 @@ public class ScrPlay implements Screen, InputProcessor {
                 sprBall.setV2ballvelocity(new Vector2((float) -(nMouseDx/2), (float) nMouseDy/9));
             }
         }
-        System.out.println(-(nMouseDx));
     }
 
 
