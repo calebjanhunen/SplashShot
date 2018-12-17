@@ -80,7 +80,7 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet.setRotation(nMouseDx);
         sprCurNet2.setRotation(nMouseDx);
         sprCurNet.draw(batch);
-        sprCurNet2.draw(batch);
+        //sprCurNet2.draw(batch);
         batch.end();
         sr.begin(ShapeRenderer.ShapeType.Filled);
         batch.setProjectionMatrix(camera.combined);
