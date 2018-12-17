@@ -11,8 +11,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.Random;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+
 
 
 public class ScrPlay implements Screen, InputProcessor {
@@ -20,14 +23,20 @@ public class ScrPlay implements Screen, InputProcessor {
     SpriteBatch batch;
     private BitmapFont font;
     OrthographicCamera camera;
+
     Random r = new Random();
     int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, ranX1, ranX2;
     SprNet sprNet1, sprNet2;
-    Sprite sprCurNet = new Sprite(), sprCurNet2 = new Sprite();
+    Sprite sprCurNet, sprCurNet2 = new Sprite();
     Texture txtball;
-    Sprite sprBall;
+    SprBall sprBall;
     Vector2 balllocation, ballvelocity, ballgravity;
-    int nBallWidth = 100, nBallHeight = 100;
+
+    Polygon polyBotNet, polyTopNet, polyBall;
+    ShapeRenderer shaperenderer;
+    Vector2 v2balllocation;
+    boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlapping = true, isTouchingWall = false;
+    float ballVelX, ballVelY;
 
 
     public ScrPlay(GamMain game) {
@@ -38,6 +47,7 @@ public class ScrPlay implements Screen, InputProcessor {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont();
         font.setColor(Color.BLACK);
+
         ranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
         ranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
         while (Math.abs(ranX1 - ranX2) <= 250){
@@ -50,12 +60,17 @@ public class ScrPlay implements Screen, InputProcessor {
 
         }
 
-        txtball = new Texture("basketball.png");
-        sprBall = new Sprite(txtball);
-        balllocation = new Vector2(300,300);
-        ballvelocity = new Vector2((float)8.0,(float)10.0);
-        ballgravity = new Vector2(0,(float) 0.5);
+        shaperenderer = new ShapeRenderer();
+        sprBall  = new SprBall(200, 500, 75, 75);
+        polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
+        sprNet1 = new SprNet(100,100,250,250);
+        sprCurNet = new Sprite();
+        sprCurNet = sprNet1.update(0, 250, 250);
+        polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 13,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 13});
+        polyTopNet = new Polygon(new float[]{sprNet1.getX() + 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 20,sprNet1.getY() + sprCurNet.getHeight() - 2});
+
     }
+
 
     @Override
     public void show() {
@@ -63,30 +78,106 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta) {           //RENDERRRRRR
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        sprCurNet = sprNet1.update(iSpr);
-        sprCurNet2 = sprNet2.update(iSpr);
+
+        if (isOverlappingBotNet) {
+            sprCurNet = sprNet1.update(iSpr, 250, 250);
+        }
+        v2balllocation = sprBall.update();
+
         batch.begin();
-        sprCurNet.setRotation(nMouseDx);
-        sprCurNet2.setRotation(nMouseDx);
+        if (isOverlappingBotNet) {
+            sprBall.setRotation(nMouseDx);
+            polyBotNet.setRotation(nMouseDx);
+            polyBall.setRotation(nMouseDx);
+            sprCurNet.setRotation(nMouseDx);
+            polyTopNet.setRotation(nMouseDx);
+        }
+
+        sprBall.draw(batch);
         sprCurNet.draw(batch);
-        sprCurNet2.draw(batch);
-        batch.draw(txtball, balllocation.x, balllocation.y, nBallWidth, nBallHeight); //ball
+
+//        sprCurNet2.draw(batch);
         batch.end();
 
-        HandleBouncing();
+        polyBotNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyBotNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        polyTopNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyTopNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        polyBall.setOrigin(sprBall.getWidth()/2, sprBall.getHeight());
+        polyBall.setPosition(v2balllocation.x, v2balllocation.y);
+        sprBall.setOrigin(sprBall.getWidth() / 2, sprBall.getHeight());
+        sprBall.setPosition(v2balllocation.x, v2balllocation.y);
+
+        HandleHitDetection();
+        HandleShooting();
+        HandleWallHit();
     }
 
-    public void HandleBouncing(){
-        balllocation.y += ballvelocity.y;  //  https://www.openprocessing.org/sketch/67284#
-        ballvelocity.y -= ballgravity.y;
-
-        if (balllocation.y < 0) {
-            ballvelocity.y = (float)(ballvelocity.y * -0.9);
-            balllocation.y = 0;
+    public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
+        isOverlappingBotNet = Intersector.overlapConvexPolygons(polyBall, polyBotNet);
+        isOverlappingTopNet = Intersector.overlapConvexPolygons(polyBall, polyTopNet);
+        if (isOverlapping) {
+            if (isOverlappingTopNet) {
+                if (isOverlappingBotNet) {
+                    sprBall.setV2ballgravity(new Vector2((float) 0, (float) 0));
+                    sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
+                    v2balllocation.y = sprCurNet.getY() + 160;
+                    v2balllocation.x = sprCurNet.getX() + 90;
+                }
+            }
         }
+        if (isOverlappingBotNet){
+            sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 10));
+        }
+        if (!isOverlappingBotNet){
+            isOverlapping = true;
+            isShot = false;
+        }
+//        System.out.println(nMouseDy/9);
+    }
+
+    public void HandleShooting(){
+        if (isShot && isOverlappingBotNet && (nMouseDy/9) >= 4.0) {
+            if (sprBall.getX() > 0 && sprBall.getX() < Gdx.graphics.getWidth()) {
+                ballVelX = -(nMouseDx/3);
+                ballVelY = nMouseDy / 9;
+                isOverlapping = false;
+                sprBall.setV2ballgravity(new Vector2((float) 0, (float) -0.5));
+                sprBall.setV2ballvelocity(new Vector2(ballVelX, ballVelY));
+            }
+        }
+    }
+
+    public void HandleWallHit(){
+        if (sprBall.getX() >= Gdx.graphics.getWidth() || sprBall.getX() <= 0){
+            isTouchingWall = true;
+        } else {
+            isTouchingWall = false;
+        }
+
+        if (isTouchingWall){
+            ballVelY /= 2;
+        }
+        //if ball hits right side of window
+        if (sprBall.getX() >= Gdx.graphics.getWidth() && ballVelX == -(nMouseDx/3)){
+            ballVelX = (nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX, ballVelY));
+        } else if (sprBall.getX() >= Gdx.graphics.getWidth() && ballVelX == (nMouseDx/3)) {
+            ballVelX = -(nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
+        }
+        //if ball hits left side of window
+        if (sprBall.getX() <= 0 && ballVelX == -(nMouseDx / 3)) {
+            ballVelX = (nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
+        } else if (sprBall.getX() <= 0 && ballVelX == (nMouseDx / 3)) {
+            ballVelX = -(nMouseDx/3);
+            sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
+        }
+        System.out.println(ballVelY);
     }
 
     @Override
@@ -134,17 +225,19 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         nMouseY = Gdx.input.getY();
         nMouseX = Gdx.input.getX();
-        return false;
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
-        return false;
+        isShot = true;
+        return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+//        isLaunched = false;
         // net y direction
         nMouseY2 = Gdx.input.getY();
         nMouseDy = nMouseY2 - nMouseY;
@@ -156,6 +249,10 @@ public class ScrPlay implements Screen, InputProcessor {
             iSpr = 0;
         }
 
+        if (nMouseDy >= 225){
+            nMouseDy = 225;
+        }
+
         //net x direction
         nMouseX2 = Gdx.input.getX();
         nMouseDx = nMouseX2 - nMouseX;
@@ -164,7 +261,7 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (nMouseDx <= -90){
             nMouseDx = -90;
         }
-        return false;
+        return true;
     }
 
     @Override
