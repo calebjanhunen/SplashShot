@@ -187,10 +187,11 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (nMouseDy <=0) {
             nMouseDy = 0;
         }
+
         sr.setColor(Color.BLACK);
-        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180); // black bar
         sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
-        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy); //yellow bar
         System.out.println(iSpr);
     }
 
