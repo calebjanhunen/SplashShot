@@ -31,7 +31,7 @@ public class ScrPlay implements Screen, InputProcessor {
     SprBall sprBall;
     Polygon polyBotNet, polyTopNet, polyBall;
     Vector2 v2balllocation;
-    boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlapping, isTouchingWall;
+    boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlappingNets, isTouchingWall;
     float ballVelX, ballVelY;
 
     ShapeRenderer sr = new ShapeRenderer();
@@ -46,7 +46,7 @@ public class ScrPlay implements Screen, InputProcessor {
         font.setColor(Color.BLACK);
 
         r = new Random();
-        isOverlapping = true;
+        isOverlappingNets = true;
         isTouchingWall = false;
 
         nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
@@ -116,12 +116,14 @@ public class ScrPlay implements Screen, InputProcessor {
 //        batch.setProjectionMatrix(camera.combined);
         PowerBar();
         sr.end();
+
+        System.out.println(isOverlappingBotNet);
     }
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
         isOverlappingBotNet = Intersector.overlapConvexPolygons(polyBall, polyBotNet);
         isOverlappingTopNet = Intersector.overlapConvexPolygons(polyBall, polyTopNet);
-        if (isOverlapping) {
+        if (isOverlappingNets) {
             if (isOverlappingTopNet) {
                 if (isOverlappingBotNet) {
                     sprBall.setV2ballgravity(new Vector2((float) 0, (float) 0));
@@ -135,7 +137,7 @@ public class ScrPlay implements Screen, InputProcessor {
             sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 10));
         }
         if (!isOverlappingBotNet){
-            isOverlapping = true;
+            isOverlappingNets = true;
             isShot = false;
         }
     }
@@ -145,7 +147,7 @@ public class ScrPlay implements Screen, InputProcessor {
             if (sprBall.getX() > 0 && sprBall.getX() < Gdx.graphics.getWidth()) {
                 ballVelX = -(nMouseDx/3);
                 ballVelY = nMouseDy / 9;
-                isOverlapping = false;
+                isOverlappingNets = false;
                 sprBall.setV2ballgravity(new Vector2((float) 0, (float) -0.5));
                 sprBall.setV2ballvelocity(new Vector2(ballVelX, ballVelY));
             }
@@ -191,7 +193,6 @@ public class ScrPlay implements Screen, InputProcessor {
         sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180); // black bar
         sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
         sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy); //yellow bar
-        System.out.println(iSpr);
     }
 
     @Override
