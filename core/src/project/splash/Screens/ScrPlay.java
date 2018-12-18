@@ -76,19 +76,6 @@ public class ScrPlay implements Screen, InputProcessor {
     public void show() {
     }
 
-    private void powerBar(){
-        if (iSpr >= 9){
-            nMouseDy = 180;
-        } else if (nMouseDy <=0) {
-            nMouseDy = 0;
-        }
-        sr.setColor(Color.BLACK);
-        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180);
-        sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
-        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy);
-        System.out.println(iSpr);
-    }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -127,7 +114,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
         sr.begin(ShapeRenderer.ShapeType.Filled);
 //        batch.setProjectionMatrix(camera.combined);
-        powerBar();
+        PowerBar();
         sr.end();
     }
 
@@ -194,6 +181,19 @@ public class ScrPlay implements Screen, InputProcessor {
         }
     }
 
+    private void PowerBar(){
+        if (iSpr >= 9){
+            nMouseDy = 180;
+        } else if (nMouseDy <=0) {
+            nMouseDy = 0;
+        }
+        sr.setColor(Color.BLACK);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180);
+        sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy);
+        System.out.println(iSpr);
+    }
+
     @Override
     public void resize(int width, int height) {
 
@@ -245,7 +245,6 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
         isShot = true;
-        nMouseDy = 0;
         return true;
     }
 
