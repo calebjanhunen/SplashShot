@@ -246,7 +246,9 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
         isShot = true;
-//        nMouseDy = 0; //resets the power bar when released
+        if(!isOverlappingNets) {
+            nMouseDy = 0; //resets the power bar when released
+        }
         return true;
     }
 
