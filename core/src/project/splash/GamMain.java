@@ -1,6 +1,7 @@
 package project.splash;
 
 import com.badlogic.gdx.Game;
+import project.splash.Screens.ScrPlay;
 
 public class GamMain extends Game {
 

@@ -1,6 +1,5 @@
-package project.splash;
+package project.splash.Objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -8,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 public class SprBall extends Sprite {
 
     Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
-    int nX,nY,nW,nH;
+    public int nX,nY,nW,nH;
 
     public SprBall(int _nX, int _nY, int _nW, int _nH) {
         super(new Texture("basketball.png"));

@@ -1,4 +1,4 @@
-package project.splash;
+package project.splash.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -6,16 +6,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import java.util.Random;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
+import project.splash.GamMain;
+import project.splash.Objects.SprBall;
+import project.splash.Objects.SprNet;
 
+import java.util.Random;
 
 
 public class ScrPlay implements Screen, InputProcessor {
@@ -23,21 +25,17 @@ public class ScrPlay implements Screen, InputProcessor {
     SpriteBatch batch;
     private BitmapFont font;
     OrthographicCamera camera;
-
-    Random r = new Random();
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, ranX1, ranX2;
+    Random r;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2;
     SprNet sprNet1, sprNet2;
-    Sprite sprCurNet, sprCurNet2 = new Sprite();
-    Texture txtball;
+    Sprite sprCurNet;
     SprBall sprBall;
-    Vector2 balllocation, ballvelocity, ballgravity;
-
     Polygon polyBotNet, polyTopNet, polyBall;
-    ShapeRenderer shaperenderer;
     Vector2 v2balllocation;
-    boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlapping = true, isTouchingWall = false;
+    boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlapping, isTouchingWall;
     float ballVelX, ballVelY;
 
+    ShapeRenderer sr = new ShapeRenderer();
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -48,19 +46,23 @@ public class ScrPlay implements Screen, InputProcessor {
         font = new BitmapFont();
         font.setColor(Color.BLACK);
 
-        ranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
-        ranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
-        while (Math.abs(ranX1 - ranX2) <= 250){
-            ranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
-            ranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
+        r = new Random();
+        isOverlapping = true;
+        isTouchingWall = false;
+
+        nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
+        nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
+        while (Math.abs(nranX1 - nranX2) <= 250){
+            nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
+            nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
+
         }
-        if (Math.abs(ranX1 - ranX2) > 250){
-            sprNet1 = new SprNet(ranX1,100, 150, 150); //First Net
-            sprNet2 = new SprNet(ranX2,400, 150, 150); // Second Net
+        if (Math.abs(nranX1 - nranX2) > 250){
+            sprNet1 = new SprNet(nranX1,100, 150, 150); //First Net
+            sprNet2 = new SprNet(nranX2,400, 150, 150); // Second Net
 
         }
 
-        shaperenderer = new ShapeRenderer();
         sprBall  = new SprBall(200, 500, 75, 75);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprNet1 = new SprNet(100,100,250,250);
@@ -68,13 +70,24 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet = sprNet1.update(0, 250, 250);
         polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 13,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 13});
         polyTopNet = new Polygon(new float[]{sprNet1.getX() + 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 20,sprNet1.getY() + sprCurNet.getHeight() - 2});
-
     }
 
 
     @Override
     public void show() {
+    }
 
+    private void powerBar(){
+        if (iSpr >= 9){
+            nMouseDy = 180;
+        } else if (nMouseDy <=0) {
+            nMouseDy = 0;
+        }
+        sr.setColor(Color.BLACK);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180);
+        sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
+        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy);
+        System.out.println(iSpr);
     }
 
     @Override
@@ -86,6 +99,7 @@ public class ScrPlay implements Screen, InputProcessor {
             sprCurNet = sprNet1.update(iSpr, 250, 250);
         }
         v2balllocation = sprBall.update();
+        sprCurNet = sprNet1.update(iSpr, 150, 150);
 
         batch.begin();
         if (isOverlappingBotNet) {
@@ -98,10 +112,6 @@ public class ScrPlay implements Screen, InputProcessor {
 
         sprBall.draw(batch);
         sprCurNet.draw(batch);
-
-//        sprCurNet2.draw(batch);
-        batch.end();
-
         polyBotNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyBotNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
         polyTopNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
@@ -110,10 +120,16 @@ public class ScrPlay implements Screen, InputProcessor {
         polyBall.setPosition(v2balllocation.x, v2balllocation.y);
         sprBall.setOrigin(sprBall.getWidth() / 2, sprBall.getHeight());
         sprBall.setPosition(v2balllocation.x, v2balllocation.y);
+        batch.end();
 
         HandleHitDetection();
         HandleShooting();
         HandleWallHit();
+
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+//        batch.setProjectionMatrix(camera.combined);
+        powerBar();
+        sr.end();
     }
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
@@ -177,7 +193,6 @@ public class ScrPlay implements Screen, InputProcessor {
             ballVelX = -(nMouseDx/3);
             sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
         }
-        System.out.println(ballVelY);
     }
 
     @Override
@@ -203,7 +218,6 @@ public class ScrPlay implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
-        txtball.dispose();
     }
 
     @Override
@@ -232,6 +246,7 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
         isShot = true;
+        nMouseDy = 0;
         return true;
     }
 
