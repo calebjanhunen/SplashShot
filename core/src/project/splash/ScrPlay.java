@@ -24,12 +24,12 @@ public class ScrPlay implements Screen, InputProcessor {
     Polygon polyBotNet, polyTopNet, polyBall;
     ShapeRenderer shaperenderer;
     Vector2 v2balllocation;
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nBotNetCount = 1;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv;
     boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlapping = true, isTouchingWall = false;
     SprNet sprNet1;
     Sprite sprCurNet;
     SprBall sprBall;
-    float ballVelX, ballVelY, ballVelY2;
+    float ballVelX, ballVelY;
 
     public ScrPlay(GamMain game) {
         this.game = game;
