@@ -13,9 +13,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import jdk.internal.dynalink.beans.StaticClass;
 import project.splash.GamMain;
 import project.splash.Objects.SprBall;
 import project.splash.Objects.SprNet;
+import project.splash.RandomXCoordinate;
+
 import java.util.Random;
 
 
@@ -25,14 +28,16 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netx;
     SprNet sprNet1, sprNet2;
-    Sprite sprCurNet;
+    Sprite sprCurNet, sprCurNet2;
     SprBall sprBall;
     Polygon polyBotNet, polyTopNet, polyBall;
     Vector2 v2balllocation;
     boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlappingNets, isTouchingWall;
     float ballVelX, ballVelY;
+    RandomXCoordinate ranX1 = new RandomXCoordinate();
+    ShapeRenderer shaperenderer = new ShapeRenderer();
 
     ShapeRenderer sr = new ShapeRenderer();
 
@@ -49,28 +54,30 @@ public class ScrPlay implements Screen, InputProcessor {
         isOverlappingNets = true;
         isTouchingWall = false;
 
-        nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
-        nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
-        while (Math.abs(nranX1 - nranX2) <= 250){
-            nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
-            nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
+//        nranX1 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for first net
+//        nranX2 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for second net
+//        while (Math.abs(nranX1 - nranX2) <= 250){
+//            nranX1 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for first net
+//            nranX2 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for second net
+//
+//        }
+            sprNet1 = new SprNet(ranX1.getNranX1(),100, 210, 210); //First Net
+            sprNet2 = new SprNet(ranX1.getNranX2(),400, 210, 210); // Second Net
 
-        }
-        if (Math.abs(nranX1 - nranX2) > 250){
-            sprNet1 = new SprNet(nranX1,100, 150, 150); //First Net
-            sprNet2 = new SprNet(nranX2,400, 150, 150); // Second Net
-
-        }
-
-        sprBall  = new SprBall(200, 500, 75, 75);
+        sprBall  = new SprBall(ranX1.getNranX1(), 500, 60, 60);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
-        sprNet1 = new SprNet(100,100,250,250);
         sprCurNet = new Sprite();
-        sprCurNet = sprNet1.update(0, 250, 250);
-        polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 13,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 13});
-        polyTopNet = new Polygon(new float[]{sprNet1.getX() + 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 20,sprNet1.getY() + sprCurNet.getHeight() - 2});
+        sprCurNet = sprNet1.update(0, 210, 210);
+        sprCurNet2 = new Sprite();
+        sprCurNet2 = sprNet2.update(0, 210, 210);
+        polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 130,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 130,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 11,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 11});
+        polyTopNet = new Polygon(new float[]{sprNet1.getX() + 17,sprNet1.getY() + 198,sprNet1.getX() + sprCurNet.getWidth() - 17,sprNet1.getY() + 198,sprNet1.getX() + sprCurNet.getWidth() - 17, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 17,sprNet1.getY() + sprCurNet.getHeight() - 2});
+     netx = (int) sprCurNet.getX();
     }
 
+        public int getNetX (){
+        return netx;
+        }
 
     @Override
     public void show() {
@@ -82,10 +89,11 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (isOverlappingBotNet) {
-            sprCurNet = sprNet1.update(iSpr, 250, 250);
+            sprCurNet = sprNet1.update(iSpr, 210, 210);
+            sprCurNet2 = sprNet2.update(iSpr, 210, 210);
         }
         v2balllocation = sprBall.update();
-        sprCurNet = sprNet1.update(iSpr, 150, 150);
+
 
         batch.begin();
         if (isOverlappingBotNet) {
@@ -98,6 +106,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
         sprBall.draw(batch);
         sprCurNet.draw(batch);
+        sprCurNet2.draw(batch);
         polyBotNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyBotNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
         polyTopNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
@@ -112,12 +121,18 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleShooting();
         HandleWallHit();
 
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-//        batch.setProjectionMatrix(camera.combined);
-        PowerBar();
-        sr.end();
+        shaperenderer.begin(ShapeRenderer.ShapeType.Line);
+        shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
+        shaperenderer.setProjectionMatrix(camera.combined);
+        shaperenderer.setColor(Color.PINK);
+        shaperenderer.polygon(polyBotNet.getTransformedVertices());
+        shaperenderer.setColor(Color.BROWN);
+        shaperenderer.polygon(polyTopNet.getTransformedVertices());
+        shaperenderer.setColor(Color.ORANGE);
+        shaperenderer.polygon(polyBall.getTransformedVertices());
+        shaperenderer.end();;
 
-        System.out.println(isOverlappingBotNet);
+        System.out.println(ranX1.getNranX1());
     }
 
     public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
@@ -128,8 +143,8 @@ public class ScrPlay implements Screen, InputProcessor {
                 if (isOverlappingBotNet) {
                     sprBall.setV2ballgravity(new Vector2((float) 0, (float) 0));
                     sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
-                    v2balllocation.y = sprCurNet.getY() + 160;
-                    v2balllocation.x = sprCurNet.getX() + 90;
+                    v2balllocation.y = sprCurNet.getY() + 134;
+                    v2balllocation.x = sprCurNet.getX() + 76;
                 }
             }
         }
@@ -165,10 +180,10 @@ public class ScrPlay implements Screen, InputProcessor {
             ballVelY /= 2;
         }
         //if ball hits right side of window
-        if (sprBall.getX() >= Gdx.graphics.getWidth() && ballVelX == -(nMouseDx/3)){
+        if (sprBall.getX() >= Gdx.graphics.getWidth()-sprBall.getWidth()/2 && ballVelX == -(nMouseDx/3)){
             ballVelX = (nMouseDx/3);
             sprBall.setV2ballvelocity(new Vector2(ballVelX, ballVelY));
-        } else if (sprBall.getX() >= Gdx.graphics.getWidth() && ballVelX == (nMouseDx/3)) {
+        } else if (sprBall.getX() >= Gdx.graphics.getWidth()-sprBall.getWidth()/2 && ballVelX == (nMouseDx/3)) {
             ballVelX = -(nMouseDx/3);
             sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
         }
