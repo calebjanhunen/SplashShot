@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -25,7 +26,7 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, nCountScore;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet;
     SprBall sprBall;
@@ -33,6 +34,8 @@ public class ScrPlay implements Screen, InputProcessor {
     Vector2 v2balllocation;
     boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlappingNets, isTouchingWall;
     float ballVelX, ballVelY;
+    BitmapFont bmFontScore;
+    String sScore;
 
     ShapeRenderer sr = new ShapeRenderer();
 
@@ -44,6 +47,7 @@ public class ScrPlay implements Screen, InputProcessor {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont();
         font.setColor(Color.BLACK);
+        nCountScore = 0;
 
         r = new Random();
         isOverlappingNets = true;
@@ -54,12 +58,10 @@ public class ScrPlay implements Screen, InputProcessor {
         while (Math.abs(nranX1 - nranX2) <= 250){
             nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
             nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
-
         }
         if (Math.abs(nranX1 - nranX2) > 250){
             sprNet1 = new SprNet(nranX1,100, 150, 150); //First Net
             sprNet2 = new SprNet(nranX2,400, 150, 150); // Second Net
-
         }
 
         sprBall  = new SprBall(200, 500, 75, 75);
@@ -69,6 +71,10 @@ public class ScrPlay implements Screen, InputProcessor {
         sprCurNet = sprNet1.update(0, 250, 250);
         polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 155,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 13,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 13});
         polyTopNet = new Polygon(new float[]{sprNet1.getX() + 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20,sprNet1.getY() + 236,sprNet1.getX() + sprCurNet.getWidth() - 20, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 20,sprNet1.getY() + sprCurNet.getHeight() - 2});
+
+        bmFontScore = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
+        bmFontScore.setColor(Color.BLACK);
+        sScore = "0";
     }
 
 
@@ -106,6 +112,9 @@ public class ScrPlay implements Screen, InputProcessor {
         polyBall.setPosition(v2balllocation.x, v2balllocation.y);
         sprBall.setOrigin(sprBall.getWidth() / 2, sprBall.getHeight());
         sprBall.setPosition(v2balllocation.x, v2balllocation.y);
+
+        GlyphLayout glScore = new GlyphLayout(bmFontScore, sScore);       
+        bmFontScore.draw(batch, glScore, 25, camera.position.y + 486);
         batch.end();
 
         HandleHitDetection();
@@ -130,6 +139,8 @@ public class ScrPlay implements Screen, InputProcessor {
                     sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
                     v2balllocation.y = sprCurNet.getY() + 160;
                     v2balllocation.x = sprCurNet.getX() + 90;
+                    nCountScore = nCountScore+ 1;
+                    sScore = "" + nCountScore;
                 }
             }
         }
@@ -218,6 +229,7 @@ public class ScrPlay implements Screen, InputProcessor {
     @Override
     public void dispose() {
         batch.dispose();
+        bmFontScore.dispose();
     }
 
     @Override
@@ -246,7 +258,7 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
         isShot = true;
-        if(!isOverlappingNets) {
+        if(!isOverlappingNets && iSpr == 9) {
             nMouseDy = 0; //resets the power bar when released
         }
         return true;
