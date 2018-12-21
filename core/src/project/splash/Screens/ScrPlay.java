@@ -23,10 +23,9 @@ import java.util.Random;
 public class ScrPlay implements Screen, InputProcessor {
     GamMain game;
     SpriteBatch batch;
-    private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, nCountScore;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, nScoreCount;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet;
     SprBall sprBall;
@@ -45,13 +44,11 @@ public class ScrPlay implements Screen, InputProcessor {
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        font = new BitmapFont();
-        font.setColor(Color.BLACK);
-        nCountScore = 0;
 
         r = new Random();
         isOverlappingNets = true;
         isTouchingWall = false;
+        nScoreCount= 0;
 
         nranX1 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for first net
         nranX2 = r.nextInt(Gdx.graphics.getWidth() - 150); // random x coordinate for second net
@@ -113,7 +110,7 @@ public class ScrPlay implements Screen, InputProcessor {
         sprBall.setOrigin(sprBall.getWidth() / 2, sprBall.getHeight());
         sprBall.setPosition(v2balllocation.x, v2balllocation.y);
 
-        GlyphLayout glScore = new GlyphLayout(bmFontScore, sScore);       
+        GlyphLayout glScore = new GlyphLayout(bmFontScore, sScore);
         bmFontScore.draw(batch, glScore, 25, camera.position.y + 486);
         batch.end();
 
@@ -122,7 +119,6 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleWallHit();
 
         sr.begin(ShapeRenderer.ShapeType.Filled);
-//        batch.setProjectionMatrix(camera.combined);
         PowerBar();
         sr.end();
 
@@ -139,8 +135,8 @@ public class ScrPlay implements Screen, InputProcessor {
                     sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
                     v2balllocation.y = sprCurNet.getY() + 160;
                     v2balllocation.x = sprCurNet.getX() + 90;
-                    nCountScore = nCountScore+ 1;
-                    sScore = "" + nCountScore;
+                    nScoreCount += 1;
+                    sScore = "" + nScoreCount;
                 }
             }
         }
@@ -266,7 +262,6 @@ public class ScrPlay implements Screen, InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-//        isLaunched = false;
         // net y direction
         nMouseY2 = Gdx.input.getY();
         nMouseDy = nMouseY2 - nMouseY;
@@ -277,13 +272,12 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (iDiv < 0){
             iSpr = 0;
         }
-
         if (nMouseDy >= 225){
             nMouseDy = 225;
         }
 
         //net x direction
-        nMouseX2 = Gdx.input.getX();
+        nMouseX2 = Gdx.input.getX();  // create two nMouseDY variables (one for the net) (one for the power bar)
         nMouseDx = nMouseX2 - nMouseX;
         if (nMouseDx >= 90){
             nMouseDx = 90;
