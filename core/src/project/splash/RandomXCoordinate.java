@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class RandomXCoordinate {
 
-    private int nranX1, nranX2;
+    int nranX1, nranX2;
     Random r = new Random();
 
     public RandomXCoordinate(){

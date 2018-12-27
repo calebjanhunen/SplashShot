@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import jdk.internal.dynalink.beans.StaticClass;
 import project.splash.GamMain;
 import project.splash.Objects.SprBall;
 import project.splash.Objects.SprNet;
@@ -28,18 +27,16 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netx;
+    public int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netX, nCount = 0, ballloc1, ballloc2;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet, sprCurNet2;
     SprBall sprBall;
-    Polygon polyBotNet, polyTopNet, polyBall;
+    Polygon polyBotNet1, polyTopNet1, polyTopNet2, polyBotNet2, polyBall;
     Vector2 v2balllocation;
-    boolean isOverlappingBotNet, isOverlappingTopNet, isShot, isOverlappingNets, isTouchingWall;
+    boolean isOverlappingBotNet1, isOverlappingTopNet1, isOverlappingBotNet2, isOverlappingTopNet2, isShot, isOverlappingNets, isTouchingWall;
     float ballVelX, ballVelY;
     RandomXCoordinate ranX1 = new RandomXCoordinate();
     ShapeRenderer shaperenderer = new ShapeRenderer();
-
-    ShapeRenderer sr = new ShapeRenderer();
 
     public ScrPlay(GamMain game) {
         this.game = game;
@@ -49,7 +46,6 @@ public class ScrPlay implements Screen, InputProcessor {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         font = new BitmapFont();
         font.setColor(Color.BLACK);
-
         r = new Random();
         isOverlappingNets = true;
         isTouchingWall = false;
@@ -61,23 +57,24 @@ public class ScrPlay implements Screen, InputProcessor {
 //            nranX2 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for second net
 //
 //        }
-            sprNet1 = new SprNet(ranX1.getNranX1(),100, 210, 210); //First Net
-            sprNet2 = new SprNet(ranX1.getNranX2(),400, 210, 210); // Second Net
+            sprNet1 = new SprNet(190,100, 150, 150); //First Net
+            sprNet2 = new SprNet(ranX1.getNranX2(),500, 150, 150); // Second Net
 
-        sprBall  = new SprBall(ranX1.getNranX1(), 500, 60, 60);
+        sprBall  = new SprBall(0, 500, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprCurNet = new Sprite();
-        sprCurNet = sprNet1.update(0, 210, 210);
+        sprCurNet = sprNet1.update(0, 150, 150);
         sprCurNet2 = new Sprite();
-        sprCurNet2 = sprNet2.update(0, 210, 210);
-        polyBotNet = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 130,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 130,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 11,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 11});
-        polyTopNet = new Polygon(new float[]{sprNet1.getX() + 17,sprNet1.getY() + 198,sprNet1.getX() + sprCurNet.getWidth() - 17,sprNet1.getY() + 198,sprNet1.getX() + sprCurNet.getWidth() - 17, sprNet1.getY() + sprCurNet.getHeight()- 2,sprNet1.getX() + 17,sprNet1.getY() + sprCurNet.getHeight() - 2});
-     netx = (int) sprCurNet.getX();
+        sprCurNet2 = sprNet2.update(0, 150, 150);
+        //hitboxes for first net
+        polyBotNet1 = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 93,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 93,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 8,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 8});
+        polyTopNet1 = new Polygon(new float[]{sprNet1.getX() + 12,sprNet1.getY() + 141,sprNet1.getX() + sprCurNet.getWidth() - 12,sprNet1.getY() + 141,sprNet1.getX() + sprCurNet.getWidth() - 12, sprNet1.getY() + sprCurNet.getHeight()- 1,sprNet1.getX() + 12,sprNet1.getY() + sprCurNet.getHeight() - 1});
+        //hitboxes for second net
+//        polyBotNet2 = new Polygon(new float[]{sprCurNet2.getX(),sprCurNet2.getY() + 93,sprCurNet2.getX() + sprCurNet2.getWidth(),sprCurNet2.getY() + 93,sprCurNet2.getX() + sprCurNet2.getWidth(), sprCurNet2.getY() + sprCurNet2.getHeight() - 8,sprCurNet2.getX(),sprCurNet2.getY() + sprCurNet2.getHeight() - 8});
+//        polyTopNet2 = new Polygon(new float[]{sprCurNet2.getX() + 12,sprCurNet2.getY() + 141,sprCurNet2.getX() + sprCurNet2.getWidth() - 12,sprCurNet2.getY() + 141,sprCurNet2.getX() + sprCurNet2.getWidth() - 12, sprCurNet2.getY() + sprCurNet2.getHeight()- 1,sprCurNet2.getX() + 12,sprCurNet2.getY() + sprCurNet2.getHeight() - 1});
+        polyBotNet2 = new Polygon(new float[]{sprNet2.getX(),sprNet2.getY() + 93,sprNet2.getX() + sprCurNet2.getWidth(),sprNet2.getY() + 93,sprNet2.getX() + sprCurNet2.getWidth(), sprNet2.getY() + sprCurNet2.getHeight() - 8,sprNet2.getX(),sprNet2.getY() + sprCurNet2.getHeight() - 8});
+        polyTopNet2 = new Polygon(new float[]{sprNet2.getX() + 12,sprNet2.getY() + 141,sprNet2.getX() + sprCurNet2.getWidth() - 12,sprNet2.getY() + 141,sprNet2.getX() + sprCurNet2.getWidth() - 12, sprNet2.getY() + sprCurNet2.getHeight()- 1,sprNet2.getX() + 12,sprNet2.getY() + sprCurNet2.getHeight() - 1});
     }
-
-        public int getNetX (){
-        return netx;
-        }
 
     @Override
     public void show() {
@@ -85,32 +82,51 @@ public class ScrPlay implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+        nCount++;
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (isOverlappingBotNet) {
+        if (isOverlappingBotNet1) {
             sprCurNet = sprNet1.update(iSpr, 210, 210);
+        } else if (isOverlappingBotNet2) {
             sprCurNet2 = sprNet2.update(iSpr, 210, 210);
         }
         v2balllocation = sprBall.update();
 
 
         batch.begin();
-        if (isOverlappingBotNet) {
+        if (isOverlappingBotNet1) {
             sprBall.setRotation(nMouseDx);
-            polyBotNet.setRotation(nMouseDx);
             polyBall.setRotation(nMouseDx);
             sprCurNet.setRotation(nMouseDx);
-            polyTopNet.setRotation(nMouseDx);
+            polyTopNet1.setRotation(nMouseDx);
+            polyBotNet1.setRotation(nMouseDx);
+
         }
+
+        else if (isOverlappingBotNet2){
+            sprBall.setRotation(nMouseDx);
+            polyBall.setRotation(nMouseDx);
+            sprCurNet2.setRotation(nMouseDx);
+            polyTopNet2.setRotation(nMouseDx);
+            polyBotNet2.setRotation(nMouseDx);
+            sprCurNet2.setRotation(nMouseDx);
+        }
+
 
         sprBall.draw(batch);
         sprCurNet.draw(batch);
         sprCurNet2.draw(batch);
-        polyBotNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
-        polyBotNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
-        polyTopNet.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
-        polyTopNet.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        //hitboxes for first net
+        polyBotNet1.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyBotNet1.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        polyTopNet1.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
+        polyTopNet1.setPosition(sprCurNet.getX(), sprCurNet.getY());
+        //hitboxes for second net
+        polyBotNet2.setOrigin(sprCurNet2.getWidth()/2, sprCurNet2.getHeight());
+        polyBotNet2.setPosition(sprCurNet2.getX(), sprCurNet2.getY());
+        polyTopNet2.setOrigin(sprCurNet2.getWidth()/2, sprCurNet2.getHeight());
+        polyTopNet2.setPosition(sprCurNet2.getX(), sprCurNet2.getY());
         polyBall.setOrigin(sprBall.getWidth()/2, sprBall.getHeight());
         polyBall.setPosition(v2balllocation.x, v2balllocation.y);
         sprBall.setOrigin(sprBall.getWidth() / 2, sprBall.getHeight());
@@ -124,46 +140,70 @@ public class ScrPlay implements Screen, InputProcessor {
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
         shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
         shaperenderer.setProjectionMatrix(camera.combined);
+        //hitboxes for first net
         shaperenderer.setColor(Color.PINK);
-        shaperenderer.polygon(polyBotNet.getTransformedVertices());
+        shaperenderer.polygon(polyBotNet1.getTransformedVertices());
         shaperenderer.setColor(Color.BROWN);
-        shaperenderer.polygon(polyTopNet.getTransformedVertices());
+        shaperenderer.polygon(polyTopNet1.getTransformedVertices());
+        //hitboxes for second net
+        shaperenderer.setColor(Color.PINK);
+        shaperenderer.polygon(polyBotNet2.getTransformedVertices());
+        shaperenderer.setColor(Color.BROWN);
+        shaperenderer.polygon(polyTopNet2.getTransformedVertices());
         shaperenderer.setColor(Color.ORANGE);
         shaperenderer.polygon(polyBall.getTransformedVertices());
-        shaperenderer.end();;
+        shaperenderer.end();
 
-        System.out.println(ranX1.getNranX1());
+        //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
+        //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
+        System.out.println((v2balllocation.y+1) - v2balllocation.y);
     }
 
-    public void HandleHitDetection(){ // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
-        isOverlappingBotNet = Intersector.overlapConvexPolygons(polyBall, polyBotNet);
-        isOverlappingTopNet = Intersector.overlapConvexPolygons(polyBall, polyTopNet);
+    public void HandleHitDetection() { // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
+        isOverlappingBotNet1 = Intersector.overlapConvexPolygons(polyBall, polyBotNet1);
+        isOverlappingTopNet1 = Intersector.overlapConvexPolygons(polyBall, polyTopNet1);
+        isOverlappingBotNet2 = Intersector.overlapConvexPolygons(polyBall, polyBotNet2);
+        isOverlappingTopNet2 = Intersector.overlapConvexPolygons(polyBall, polyTopNet2);
         if (isOverlappingNets) {
-            if (isOverlappingTopNet) {
-                if (isOverlappingBotNet) {
-                    sprBall.setV2ballgravity(new Vector2((float) 0, (float) 0));
+            if (isOverlappingTopNet1) {
+                    sprBall.setV2ballgravity (new Vector2((float) 0.0, (float) 0.0));
                     sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
-                    v2balllocation.y = sprCurNet.getY() + 134;
-                    v2balllocation.x = sprCurNet.getX() + 76;
-                }
+                    v2balllocation.y = sprCurNet.getY() + 96;
+                    v2balllocation.x = sprCurNet.getX() + 54;
+            }
+            if (isOverlappingTopNet2) {
+                    sprBall.setV2ballgravity (new Vector2((float) 0.0, (float) 0.0));
+                    sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
+                    v2balllocation.y = sprCurNet2.getY() + 96;
+                    v2balllocation.x = sprCurNet2.getX() + 54;
             }
         }
-        if (isOverlappingBotNet){
-            sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 10));
+
+            if (isOverlappingBotNet1 || isOverlappingBotNet2) {
+//                sprBall.setV2ballvelocity(new Vector2(ballVelX, -ballVelY));
+            }
+
+            if (!isOverlappingBotNet1 && !isOverlappingBotNet2) {
+                isOverlappingNets = true;
+                isShot = false;
+            }
         }
-        if (!isOverlappingBotNet){
-            isOverlappingNets = true;
-            isShot = false;
-        }
-    }
 
     public void HandleShooting(){
-        if (isShot && isOverlappingBotNet && (nMouseDy/9) >= 4.0) {
+        if (isShot && isOverlappingBotNet1 && (nMouseDy/9) >= 4.0) {
             if (sprBall.getX() > 0 && sprBall.getX() < Gdx.graphics.getWidth()) {
                 ballVelX = -(nMouseDx/3);
                 ballVelY = nMouseDy / 9;
                 isOverlappingNets = false;
-                sprBall.setV2ballgravity(new Vector2((float) 0, (float) -0.5));
+                sprBall.setV2ballgravity (new Vector2((float) 0.0, (float) -0.5));
+                sprBall.setV2ballvelocity(new Vector2(ballVelX, ballVelY));
+            }
+        } else if (isShot && isOverlappingBotNet2 && (nMouseDy/9) >= 4.0) {
+            if (sprBall.getX() > 0 && sprBall.getX() < Gdx.graphics.getWidth()) {
+                ballVelX = -(nMouseDx/3);
+                ballVelY = nMouseDy / 9;
+                isOverlappingNets = false;
+                sprBall.setV2ballgravity (new Vector2((float) 0.0, (float) -0.5));
                 sprBall.setV2ballvelocity(new Vector2(ballVelX, ballVelY));
             }
         }
@@ -195,6 +235,11 @@ public class ScrPlay implements Screen, InputProcessor {
             ballVelX = -(nMouseDx/3);
             sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
         }
+
+        if (sprBall.getY() <= 10){
+            v2balllocation.y = sprCurNet.getY() + 96;
+            v2balllocation.x = sprCurNet.getX() + 54;
+        }
     }
 
     private void PowerBar(){
@@ -204,10 +249,10 @@ public class ScrPlay implements Screen, InputProcessor {
             nMouseDy = 0;
         }
 
-        sr.setColor(Color.BLACK);
-        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180); // black bar
-        sr.setColor(249/255f, 146/255f, 7/255f, 0.5f);
-        sr.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy); //yellow bar
+        shaperenderer.setColor(Color.BLACK);
+        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180); // black bar
+        shaperenderer.setColor(249/255f, 146/255f, 7/255f, 0.5f);
+        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy); //yellow bar
     }
 
     @Override
