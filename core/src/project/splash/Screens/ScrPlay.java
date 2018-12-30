@@ -102,9 +102,7 @@ public class ScrPlay implements Screen, InputProcessor {
             polyTopNet1.setRotation(nMouseDx);
             polyBotNet1.setRotation(nMouseDx);
 
-        }
-
-        else if (isOverlappingBotNet2){
+        } else if (isOverlappingBotNet2){
             sprBall.setRotation(nMouseDx);
             polyBall.setRotation(nMouseDx);
             sprCurNet2.setRotation(nMouseDx);
