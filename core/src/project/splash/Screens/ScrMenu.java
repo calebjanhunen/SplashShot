@@ -1,6 +1,7 @@
 package project.splash.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,16 +13,15 @@ public class ScrMenu implements Screen, InputProcessor {
 
     SpriteBatch batch;
     Texture txtbackground;
-    int nBtnPlayX = 180, nBtnPlayY = 400, nBtnPlayWidth = 250, nBtnPlayHeight = 250;
-    //Buttons btnPlay, btnInfo;
+    Input.Buttons btnPlay, btnInfo;
     GamMain game;
 
     public ScrMenu(GamMain game) {
         this.game = game;
         batch = new SpriteBatch();
         txtbackground = new Texture("menuscreen.png");
-//        btnPlay = new Buttons(175, 400, 250, 250, "playbutton.png");
-//        btnInfo = new Buttons(30, 200, 180, 180, "infobutton.png");
+        btnPlay = new Buttons(175, 400, 250, 250, "playbutton.png");
+        btnInfo = new Buttons(30, 200, 180, 180, "infobutton.png");
     }
 
     @Override
@@ -33,20 +33,20 @@ public class ScrMenu implements Screen, InputProcessor {
     public void render(float delta) {
         batch.begin();
         batch.draw(txtbackground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-     //   btnPlay.draw(batch);
-//        btnInfo.draw(batch);
-    //    HandleButtons();
+        btnPlay.draw(batch);
+        btnInfo.draw(batch);
+        HandleButtons();
         batch.end();
 
     }
 
-//    public void HandleButtons() {
-//        if (Gdx.input.isTouched()) {                          //Learning how to switch screens: https://github.com/weihanli101/Cygnus-Strike/blob/MasterWithMenu/core/src/com/mygdx/game/MyGame.java
-//            if (btnPlay.isMousedOver()) {
-//                game.setScreen(new ScrPlay(game));
-//            }
-//        }
-//    }
+    public void HandleButtons() {
+        if (Gdx.input.isTouched()) {                          //Learning how to switch screens: https://github.com/weihanli101/Cygnus-Strike/blob/MasterWithMenu/core/src/com/mygdx/game/MyGame.java
+            if (btnPlay.isMousedOver()) {
+                game.setScreen(new ScrPlay(game));
+            }
+        }
+    }
 
     @Override
     public void resize(int width, int height) {
