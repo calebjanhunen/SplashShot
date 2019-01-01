@@ -50,13 +50,6 @@ public class ScrPlay implements Screen, InputProcessor {
         isOverlappingNets = true;
         isTouchingWall = false;
 
-//        nranX1 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for first net
-//        nranX2 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for second net
-//        while (Math.abs(nranX1 - nranX2) <= 250){
-//            nranX1 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for first net
-//            nranX2 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for second net
-//
-//        }
             sprNet1 = new SprNet(190,100, 150, 150); //First Net
             sprNet2 = new SprNet(ranX1.getNranX2(),500, 150, 150); // Second Net
 
