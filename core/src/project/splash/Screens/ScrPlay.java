@@ -137,6 +137,7 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleShooting();
         HandleWallHit();
 
+
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
         shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
         shaperenderer.setProjectionMatrix(camera.combined);
