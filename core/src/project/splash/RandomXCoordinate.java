@@ -15,7 +15,6 @@ public class RandomXCoordinate {
         while (Math.abs(nranX1 - nranX2) <= 250){
             nranX1 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for first net
             nranX2 = r.nextInt(Gdx.graphics.getWidth() - 250); // random x coordinate for second net
-
         }
     }
 
