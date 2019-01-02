@@ -11,6 +11,5 @@ public class DesktopLauncher {
 		config.title = "Splash Shot";
 		config.height = 1000;
 		config.width = 600;
-		new LwjglApplication(new GamMain(), config);
 	}
 }

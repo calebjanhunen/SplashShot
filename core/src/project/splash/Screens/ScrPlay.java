@@ -155,7 +155,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
         //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
         //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
-        System.out.println((v2balllocation.y+1) - v2balllocation.y);
+//        System.out.println((v2balllocation.y+1) - v2balllocation.y);
     }
 
     public void HandleHitDetection() { // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
