@@ -1,13 +1,10 @@
-package gdx.game;
+package project.splash.Objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-/**
- *
- * @author Dennis
- */
+
 public class Buttons extends Sprite { //Learning how to implement buttons: https://github.com/brauj1894/Risk/blob/master/core/src/gdx/game/objects/Button.java
     int nX, nY, nW, nH;
 
