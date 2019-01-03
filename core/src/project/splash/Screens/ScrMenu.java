@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import gdx.game.Buttons;
+import project.splash.Objects.Buttons;
 import project.splash.GamMain;
 
 
