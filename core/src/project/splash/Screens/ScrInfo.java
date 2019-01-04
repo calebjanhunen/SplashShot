@@ -31,7 +31,7 @@ public class ScrInfo implements Screen, InputProcessor {
         btnForward0 = new Buttons(480, 900, 75, 75, "forwardbutton1.png");
         btnForward1 = new Buttons(480, 10, 75, 75, "forwardbutton2.png");
         btnForward2 = new Buttons(495, 900, 75, 75, "forwardbutton3.png");
-        btnHome = new Buttons(480, 10, 75, 75, "homebutton.png");
+        btnHome = new Buttons(480, 35, 75, 75, "homebutton.png");
     }
 
     @Override
