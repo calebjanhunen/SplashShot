@@ -24,13 +24,13 @@ public class ScrInfo implements Screen, InputProcessor {
     public ScrInfo(GamMain game) {
         this.game = game;
         batch = new SpriteBatch();
-        txtinfoscreen0 = new Texture("infoscreen0.png");
-        txtinfoscreen1 = new Texture("infoscreen1.png");
-        txtinfoscreen2 = new Texture("infoscreen2.png");
-        txtinfoscreen3 = new Texture("infoscreen3.png");
-        btnForward0 = new Buttons(480, 900, 75, 75, "forwardbutton0.png");
-        btnForward1 = new Buttons(480, 10, 75, 75, "forwardbutton1.png");
-        btnForward2 = new Buttons(495, 900, 75, 75, "forwardbutton2.png");
+        txtinfoscreen0 = new Texture("infoscreen1.png");
+        txtinfoscreen1 = new Texture("infoscreen2.png");
+        txtinfoscreen2 = new Texture("infoscreen3.png");
+        txtinfoscreen3 = new Texture("infoscreen4.png");
+        btnForward0 = new Buttons(480, 900, 75, 75, "forwardbutton1.png");
+        btnForward1 = new Buttons(480, 10, 75, 75, "forwardbutton2.png");
+        btnForward2 = new Buttons(495, 900, 75, 75, "forwardbutton3.png");
         btnHome = new Buttons(480, 10, 75, 75, "homebutton.png");
     }
 
