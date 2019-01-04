@@ -153,6 +153,9 @@ public class ScrPlay implements Screen, InputProcessor {
         PowerBar();
         shaperenderer.end();
 
+        if (sprBall.getY() <= camera.position.y - 500){ //initiates game over screen
+            game.setScreen(new ScrGameOver(game));
+        }
         //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
         //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
 //        System.out.println((v2balllocation.y+1) - v2balllocation.y);
