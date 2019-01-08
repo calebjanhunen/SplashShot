@@ -27,7 +27,7 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    public int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netX, nCount = 0, ballloc1, ballloc2;
+    public int nMouseY, nMouseY2, nMouseDy, nMouseDy2, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netX, nCount = 0, ballloc1, ballloc2;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet, sprCurNet2;
     SprBall sprBall;
@@ -309,7 +309,7 @@ public class ScrPlay implements Screen, InputProcessor {
         iSpr = 0;
         isShot = true;
         if(!isOverlappingNets) {
-            nMouseDy = 0; //resets the power bar when released
+            nMouseDy2 = 0; //resets the power bar when released
         }
         return true;
     }
@@ -320,6 +320,7 @@ public class ScrPlay implements Screen, InputProcessor {
         // net y direction
         nMouseY2 = Gdx.input.getY();
         nMouseDy = nMouseY2 - nMouseY;
+        nMouseDy2 = nMouseY2 - nMouseY;
         iDiv = nMouseDy / 20;
         iSpr = iDiv;
         if (iDiv > 9) {
