@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -59,7 +60,7 @@ public class ScrPlay implements Screen, InputProcessor {
 //
 //        }
             sprNet1 = new SprNet(190,100, 150, 150); //First Net
-            sprNet2 = new SprNet(ranX1.getNranX2(),500, 150, 150); // Second Net
+            sprNet2 = new SprNet(ranX1.getNranX2(),450, 150, 150); // Second Net
 
         sprBall  = new SprBall(0, (int) camera.position.y, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
@@ -95,12 +96,8 @@ public class ScrPlay implements Screen, InputProcessor {
         }
         v2balllocation = sprBall.update();
 
-        if (v2balllocation.y > camera.position.y){
-            camera.position.y += ballVelY;
-
-        }
-
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
         if (isOverlappingBotNet1) {
             sprBall.setRotation(nMouseDx);
             polyBall.setRotation(nMouseDx);
@@ -168,7 +165,6 @@ public class ScrPlay implements Screen, InputProcessor {
 
         //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
         //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
-        System.out.println((v2balllocation.y+1) - v2balllocation.y);
     }
 
     public void HandleHitDetection() { // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
@@ -268,6 +264,12 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void HandleCamera(){
+        if (v2balllocation.y > camera.position.y+50){
+            camera.position.y += 5;
+        }
+//        if (v2balllocation.y == camera.position.y+50){
+//            camera.position.y -= 5;
+//        }
 
     }
 
