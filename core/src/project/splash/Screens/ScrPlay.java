@@ -6,7 +6,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -225,7 +224,7 @@ public class ScrPlay implements Screen, InputProcessor {
         }
 
         if (isTouchingWall){
-            ballVelY /= 2;
+            ballVelY /= 3;
         }
         //if ball hits right side of window
         if (sprBall.getX() >= Gdx.graphics.getWidth()-sprBall.getWidth()/2 && ballVelX == -(nMouseDx/3)){
@@ -265,7 +264,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
     public void HandleCamera(){
         if (v2balllocation.y > camera.position.y+50){
-            camera.position.y += 5;
+            camera.position.y += 20;
         }
 //        if (v2balllocation.y == camera.position.y+50){
 //            camera.position.y -= 5;
