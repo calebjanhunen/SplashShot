@@ -27,7 +27,7 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    public int nMouseY, nMouseY2, nMouseDy, nMouseDy2, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netX, nCount = 0, ballloc1, ballloc2;
+    public int nMouseY, nMouseY2, nMouseDy, nMouseDy2, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nCount = 0;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet, sprCurNet2;
     SprBall sprBall;
@@ -251,10 +251,16 @@ public class ScrPlay implements Screen, InputProcessor {
             nMouseDy = 0;
         }
 
+        if (iSpr >= 9){
+            nMouseDy2 = 180;
+        } else if (nMouseDy2 <=0) {
+            nMouseDy2 = 0;
+        }
+
         shaperenderer.setColor(Color.BLACK);
         shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180); // black bar
         shaperenderer.setColor(249/255f, 146/255f, 7/255f, 0.5f);
-        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy); //yellow bar
+        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy2); //yellow bar
     }
 
     @Override
@@ -308,10 +314,8 @@ public class ScrPlay implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         iSpr = 0;
         isShot = true;
-        if(!isOverlappingNets) {
-            nMouseDy2 = 0; //resets the power bar when released
-        }
-        return true;
+        nMouseDy2 = 0; //resets the power bar when released
+        return false;
     }
 
     @Override
@@ -320,7 +324,7 @@ public class ScrPlay implements Screen, InputProcessor {
         // net y direction
         nMouseY2 = Gdx.input.getY();
         nMouseDy = nMouseY2 - nMouseY;
-        nMouseDy2 = nMouseY2 - nMouseY;
+
         iDiv = nMouseDy / 20;
         iSpr = iDiv;
         if (iDiv > 9) {
@@ -328,9 +332,23 @@ public class ScrPlay implements Screen, InputProcessor {
         } else if (iDiv < 0){
             iSpr = 0;
         }
-
         if (nMouseDy >= 225){
             nMouseDy = 225;
+        }
+
+        //needed for powerbar
+
+        nMouseDy2 = nMouseY2 - nMouseY;
+
+        iDiv = nMouseDy2 / 20;
+        iSpr = iDiv;
+        if (iDiv > 9) {
+            iSpr = 9;
+        } else if (iDiv < 0){
+            iSpr = 0;
+        }
+        if (nMouseDy2 >= 225){
+            nMouseDy2 = 225;
         }
 
         //net x direction

@@ -9,10 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import project.splash.GamMain;
 import project.splash.Objects.Buttons;
 
-/**
- *
- * @author Dennis
- */
 public class ScrInfo implements Screen, InputProcessor {
 
     GamMain game;
