@@ -79,7 +79,9 @@ public class ScrPlay implements Screen, InputProcessor {
         nCount++;
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            camera.position.set(Gdx.graphics.getWidth()/2, sprBall.getY()+200, 0);
+        if (nCount >= 60) {
+            camera.position.set(Gdx.graphics.getWidth() / 2, sprBall.getY() + 303, 0);
+        }
         camera.update();
 
         if (isOverlappingBotNet1) {
