@@ -27,7 +27,7 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    public int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netX, nCount = 0, ballloc1, ballloc2;
+    public int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netX, nCount = 0;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet, sprCurNet2;
     SprBall sprBall;
@@ -43,7 +43,8 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.input.setInputProcessor((this));
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false);
+        camera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
         font = new BitmapFont();
         font.setColor(Color.BLACK);
         r = new Random();
@@ -51,9 +52,9 @@ public class ScrPlay implements Screen, InputProcessor {
         isTouchingWall = false;
 
             sprNet1 = new SprNet(190,100, 150, 150); //First Net
-            sprNet2 = new SprNet(ranX1.getNranX2(),500, 150, 150); // Second Net
+            sprNet2 = new SprNet(ranX1.getNranX2(),450, 150, 150); // Second Net
 
-        sprBall  = new SprBall(0, 500, 43, 43);
+        sprBall  = new SprBall(0, (int) camera.position.y, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprCurNet = new Sprite();
         sprCurNet = sprNet1.update(0, 150, 150);
@@ -78,6 +79,7 @@ public class ScrPlay implements Screen, InputProcessor {
         nCount++;
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
 
         if (isOverlappingBotNet1) {
             sprCurNet = sprNet1.update(iSpr, 210, 210);
@@ -86,8 +88,8 @@ public class ScrPlay implements Screen, InputProcessor {
         }
         v2balllocation = sprBall.update();
 
-
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
         if (isOverlappingBotNet1) {
             sprBall.setRotation(nMouseDx);
             polyBall.setRotation(nMouseDx);
@@ -126,26 +128,26 @@ public class ScrPlay implements Screen, InputProcessor {
         sprBall.setPosition(v2balllocation.x, v2balllocation.y);
         batch.end();
 
+
         HandleHitDetection();
         HandleShooting();
         HandleWallHit();
 
-
         shaperenderer.begin(ShapeRenderer.ShapeType.Line);
         shaperenderer.setProjectionMatrix(camera.combined);
-       // shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
+        shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
         //hitboxes for first net
-//        shaperenderer.setColor(Color.PINK);
-//        shaperenderer.polygon(polyBotNet1.getTransformedVertices());
-//        shaperenderer.setColor(Color.BROWN);
-//        shaperenderer.polygon(polyTopNet1.getTransformedVertices());
-//        //hitboxes for second net
-//        shaperenderer.setColor(Color.PINK);
-//        shaperenderer.polygon(polyBotNet2.getTransformedVertices());
-//        shaperenderer.setColor(Color.BROWN);
-//        shaperenderer.polygon(polyTopNet2.getTransformedVertices());
-//        shaperenderer.setColor(Color.ORANGE);
-//        shaperenderer.polygon(polyBall.getTransformedVertices());
+        shaperenderer.setColor(Color.PINK);
+        shaperenderer.polygon(polyBotNet1.getTransformedVertices());
+        shaperenderer.setColor(Color.BROWN);
+        shaperenderer.polygon(polyTopNet1.getTransformedVertices());
+        //hitboxes for second net
+        shaperenderer.setColor(Color.PINK);
+        shaperenderer.polygon(polyBotNet2.getTransformedVertices());
+        shaperenderer.setColor(Color.BROWN);
+        shaperenderer.polygon(polyTopNet2.getTransformedVertices());
+        shaperenderer.setColor(Color.ORANGE);
+        shaperenderer.polygon(polyBall.getTransformedVertices());
         shaperenderer.end();
 
         shaperenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -153,9 +155,13 @@ public class ScrPlay implements Screen, InputProcessor {
         PowerBar();
         shaperenderer.end();
 
+        HandleHitDetection();
+        HandleShooting();
+        HandleWallHit();
+        HandleCamera();
+
         //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
         //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
-        System.out.println((v2balllocation.y+1) - v2balllocation.y);
     }
 
     public void HandleHitDetection() { // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
@@ -216,7 +222,7 @@ public class ScrPlay implements Screen, InputProcessor {
         }
 
         if (isTouchingWall){
-            ballVelY /= 2;
+            ballVelY /= 3;
         }
         //if ball hits right side of window
         if (sprBall.getX() >= Gdx.graphics.getWidth()-sprBall.getWidth()/2 && ballVelX == -(nMouseDx/3)){
@@ -235,13 +241,13 @@ public class ScrPlay implements Screen, InputProcessor {
             sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
         }
 
-        if (sprBall.getY() <= 10){
+        if (sprBall.getY() <= camera.position.y - 490){
             v2balllocation.y = sprCurNet.getY() + 96;
             v2balllocation.x = sprCurNet.getX() + 54;
         }
     }
 
-    private void PowerBar(){
+    public void PowerBar(){
         if (iSpr >= 9){
             nMouseDy = 180;
         } else if (nMouseDy <=0) {
@@ -249,9 +255,19 @@ public class ScrPlay implements Screen, InputProcessor {
         }
 
         shaperenderer.setColor(Color.BLACK);
-        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180); // black bar
+        shaperenderer.rect(5,(int)camera.position.y - 90,10,180); // black bar
         shaperenderer.setColor(249/255f, 146/255f, 7/255f, 0.5f);
-        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy); //yellow bar
+        shaperenderer.rect(5,(int)camera.position.y - 90,10,nMouseDy); //yellow bar
+    }
+
+    public void HandleCamera(){
+        if (v2balllocation.y > camera.position.y+50){
+            camera.position.y += 20;
+        }
+//        if (v2balllocation.y == camera.position.y+50){
+//            camera.position.y -= 5;
+//        }
+
     }
 
     @Override
