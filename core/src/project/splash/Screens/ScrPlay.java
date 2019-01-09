@@ -54,7 +54,7 @@ public class ScrPlay implements Screen, InputProcessor {
             sprNet1 = new SprNet(190,100, 150, 150); //First Net
             sprNet2 = new SprNet(ranX1.getNranX2(),450, 150, 150); // Second Net
 
-        sprBall  = new SprBall(0, (int) camera.position.y, 43, 43);
+        sprBall  = new SprBall(0, 400, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprCurNet = new Sprite();
         sprCurNet = sprNet1.update(0, 150, 150);
@@ -79,6 +79,7 @@ public class ScrPlay implements Screen, InputProcessor {
         nCount++;
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            camera.position.set(Gdx.graphics.getWidth()/2, sprBall.getY()+200, 0);
         camera.update();
 
         if (isOverlappingBotNet1) {
@@ -153,7 +154,6 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleHitDetection();
         HandleShooting();
         HandleWallHit();
-        HandleCamera();
 
         //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
         //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
@@ -236,7 +236,7 @@ public class ScrPlay implements Screen, InputProcessor {
             sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
         }
 
-        if (sprBall.getY() <= camera.position.y - 490){
+        if (sprBall.getY() <= sprCurNet.getY() - 100){
             v2balllocation.y = sprCurNet.getY() + 96;
             v2balllocation.x = sprCurNet.getX() + 54;
         }
@@ -256,9 +256,7 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void HandleCamera(){
-        if (v2balllocation.y > camera.position.y+50){
-            camera.position.y += 20;
-        }
+
 //        if (v2balllocation.y == camera.position.y+50){
 //            camera.position.y -= 5;
 //        }
