@@ -171,6 +171,7 @@ public class ScrPlay implements Screen, InputProcessor {
                     sprBall.setV2ballvelocity(new Vector2((float) 0.0, (float) 0.0));
                     v2balllocation.y = sprCurNet.getY() + 96;
                     v2balllocation.x = sprCurNet.getX() + 54;
+                    ballVelX = ballVelX * -1;
             }
             if (isOverlappingTopNet2) {
                     sprBall.setV2ballgravity (new Vector2((float) 0.0, (float) 0.0));
@@ -181,7 +182,7 @@ public class ScrPlay implements Screen, InputProcessor {
         }
 
             if (isOverlappingBotNet1 || isOverlappingBotNet2) {
-//                sprBall.setV2ballvelocity(new Vector2(ballVelX, -ballVelY));
+                sprBall.setV2ballvelocity(new Vector2(ballVelX, -ballVelY));
             }
 
             if (!isOverlappingBotNet1 && !isOverlappingBotNet2) {
