@@ -3,6 +3,7 @@ package project.splash.Objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -30,6 +31,10 @@ public class SprNet extends Sprite {
             nY = _nY;
             arSprNet[i].setPosition(nX, nY);
         }
+
+    }
+
+    public void render(SpriteBatch batch){
 
     }
 
