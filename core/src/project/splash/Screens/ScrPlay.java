@@ -148,7 +148,6 @@ public class ScrPlay implements Screen, InputProcessor {
             isShot = false;
         }
     }
-
     public void HandleShooting(){
         if (isShot && isOverlappingBotNet && (nMouseDy/9) >= 4.0) {
             if (sprBall.getX() > 0 && sprBall.getX() < Gdx.graphics.getWidth()) {
