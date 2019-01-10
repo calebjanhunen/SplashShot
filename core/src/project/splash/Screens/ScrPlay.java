@@ -51,8 +51,8 @@ public class ScrPlay implements Screen, InputProcessor {
         isOverlappingNets = true;
         isTouchingWall = false;
 
-            sprNet1 = new SprNet(190,100, 150, 150); //First Net
-            sprNet2 = new SprNet(ranX1.getNranX2(),450, 150, 150); // Second Net
+             
+            sprNet2 = new SprNet(390,400, 150, 150); // Second Net
 
         sprBall  = new SprBall(0, 400, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
@@ -80,14 +80,14 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (nCount >= 60) {
-            camera.position.set(Gdx.graphics.getWidth() / 2, sprBall.getY() + 303, 0);
+            //camera.position.set(Gdx.graphics.getWidth() / 2, sprBall.getY() + 303, 0);
         }
         camera.update();
-
+        HandleRespawn();
         if (isOverlappingBotNet1) {
-            sprCurNet = sprNet1.update(iSpr, 210, 210);
+            sprCurNet = sprNet1.update(iSpr, 150, 150);
         } else if (isOverlappingBotNet2) {
-            sprCurNet2 = sprNet2.update(iSpr, 210, 210);
+            sprCurNet2 = sprNet2.update(iSpr, 150, 150);
         }
         v2balllocation = sprBall.update();
 
@@ -156,9 +156,19 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleHitDetection();
         HandleShooting();
         HandleWallHit();
+        HandleCamera();
 
         //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
         //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
+
+    }
+
+    public void HandleRespawn(){
+        if (isOverlappingTopNet2){
+            System.out.println("yes");
+            sprNet1.setPosition (190, sprNet2.getY() + 599);
+            sprCurNet.setPosition (190, sprNet2.getY() + 599);
+        }
     }
 
     public void HandleHitDetection() { // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
@@ -238,7 +248,7 @@ public class ScrPlay implements Screen, InputProcessor {
             sprBall.setV2ballvelocity(new Vector2(ballVelX,  ballVelY));
         }
 
-        if (sprBall.getY() <= sprCurNet.getY() - 100){
+        if (sprBall.getY() <= sprCurNet.getY() - 99){
             v2balllocation.y = sprCurNet.getY() + 96;
             v2balllocation.x = sprCurNet.getX() + 54;
         }
@@ -258,9 +268,9 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void HandleCamera(){
-
-//        if (v2balllocation.y == camera.position.y+50){
-//            camera.position.y -= 5;
+//        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+//            System.out.println("yes");
+//            camera.position.y-=5;
 //        }
 
     }
