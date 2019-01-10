@@ -50,10 +50,8 @@ public class ScrPlay implements Screen, InputProcessor {
         r = new Random();
         isOverlappingNets = true;
         isTouchingWall = false;
-
-            sprNet1 = new SprNet(190,100, 150, 150); //First Net
-            sprNet2 = new SprNet(ranX1.getNranX2(),450, 150, 150); // Second Net
-
+        sprNet1 = new SprNet(190,100, 150, 150); //First Net
+        sprNet2 = new SprNet(ranX1.getNranX2(),450, 150, 150); // Second Net
         sprBall  = new SprBall(0, 400, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprCurNet = new Sprite();
