@@ -51,8 +51,8 @@ public class ScrPlay implements Screen, InputProcessor {
         isOverlappingNets = true;
         isTouchingWall = false;
 
-             
-            sprNet2 = new SprNet(390,400, 150, 150); // Second Net
+        sprNet1 = new SprNet(190,100, 150, 150); // Second Net
+        sprNet2 = new SprNet(390,400, 150, 150); // Second Net
 
         sprBall  = new SprBall(0, 400, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
@@ -166,7 +166,7 @@ public class ScrPlay implements Screen, InputProcessor {
     public void HandleRespawn(){
         if (isOverlappingTopNet2){
             System.out.println("yes");
-            sprNet1.setPosition (190, sprNet2.getY() + 599);
+            sprNet1.setPosition (190, sprNet2.getY() + 400);
             sprCurNet.setPosition (190, sprNet2.getY() + 599);
         }
     }
