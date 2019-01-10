@@ -11,12 +11,14 @@ public class SprNet extends Sprite {
     TextureRegion textureRegion;
     String sNet;
     Sprite arSprNet[] = new Sprite[10];
+    boolean isCurrent;
     int index;
     int nW, nH, nX, nY;
 
-    public SprNet(int _nX, int _nY, int _nW, int _nH) {
+    public SprNet(int _nX, int _nY, int _nW, int _nH, boolean _isCurrent) {
 
         super(new Texture(Gdx.files.internal("NetSpriteSheet.png")));
+        isCurrent = _isCurrent;
         for (int i = 0; i < 10; i++) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("NetSpriteSheet.atlas"));
             sNet = "Net" + (i + 1);
