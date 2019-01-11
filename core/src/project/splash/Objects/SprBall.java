@@ -2,6 +2,8 @@ package project.splash.Objects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import project.splash.RandomXCoordinate;
 
@@ -9,7 +11,8 @@ public class SprBall extends Sprite {
 
     Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
     RandomXCoordinate ranX1 = new RandomXCoordinate();
-    public int nX,nY,nW,nH, nranx = ranX1.getNranX1();
+    public int nX,nY,nW,nH;
+    Polygon polyBall;
 
     public SprBall(int _nX, int _nY, int _nW, int _nH) {
         super(new Texture("basketball.png"));
@@ -22,6 +25,11 @@ public class SprBall extends Sprite {
         nW = _nW;
         nH = _nH;
         this.setSize(nW, nH);
+
+    }
+
+    public void render (SpriteBatch batch){
+
     }
 
     public Vector2 update() {

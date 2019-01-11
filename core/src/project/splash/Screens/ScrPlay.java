@@ -27,7 +27,7 @@ public class ScrPlay implements Screen, InputProcessor {
     private BitmapFont font;
     OrthographicCamera camera;
     Random r;
-    public int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, netX, nCount = 0;
+    int nMouseY, nMouseY2, nMouseDy, iSpr, nMouseX, nMouseX2, nMouseDx, iDiv, nranX1, nranX2, nCount = 0;
     SprNet sprNet1, sprNet2;
     Sprite sprCurNet, sprCurNet2;
     SprBall sprBall;
@@ -111,8 +111,9 @@ public class ScrPlay implements Screen, InputProcessor {
 
 
         sprBall.draw(batch);
-        sprCurNet.draw(batch);
-        sprCurNet2.draw(batch);
+//        sprCurNet.draw(batch);
+//        sprCurNet2.draw(batch);
+        SprNet.render(batch);
         //hitboxes for first net
         polyBotNet1.setOrigin(sprCurNet.getWidth()/2, sprCurNet.getHeight());
         polyBotNet1.setPosition(sprCurNet.getX(), sprCurNet.getY());
