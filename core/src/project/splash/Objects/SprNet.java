@@ -17,7 +17,7 @@ public class SprNet extends Sprite {
     int nW, nH, nX, nY, iSpr;
     ScrPlay play;
 
-    public SprNet(ScrPlay _play, int _nX, int _nY, int _nW, int _nH) {
+    public SprNet(int _nX, int _nY, int _nW, int _nH) {
         super(new Texture(Gdx.files.internal("NetSpriteSheet.png")));
         for (int i = 0; i < 10; i++) {
             textureAtlas = new TextureAtlas(Gdx.files.internal("NetSpriteSheet.atlas"));
