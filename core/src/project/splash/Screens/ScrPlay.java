@@ -181,9 +181,9 @@ public class ScrPlay implements Screen, InputProcessor {
             }
         }
 
-            if (isOverlappingBotNet1 || isOverlappingBotNet2) {
-                sprBall.setV2ballvelocity(new Vector2(ballVelX, -ballVelY));
-            }
+//            if (isOverlappingBotNet1 || isOverlappingBotNet2) {
+//                sprBall.setV2ballvelocity(new Vector2(ballVelX, -ballVelY));
+//            }
 
             if (!isOverlappingBotNet1 && !isOverlappingBotNet2) {
                 isOverlappingNets = true;
