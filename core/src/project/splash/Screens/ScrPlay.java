@@ -43,7 +43,8 @@ public class ScrPlay implements Screen, InputProcessor {
         Gdx.input.setInputProcessor((this));
         batch = new SpriteBatch();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false);
+        camera.position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
         font = new BitmapFont();
         font.setColor(Color.BLACK);
         r = new Random();
@@ -77,16 +78,21 @@ public class ScrPlay implements Screen, InputProcessor {
         nCount++;
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (nCount >=60){
+            camera.position.set(Gdx.graphics.getWidth()/2, sprBall.getY() + 303, 0);
+        }
 
         if (isOverlappingBotNet1) {
             sprCurNet = sprNet1.update(iSpr, 210, 210);
         } else if (isOverlappingBotNet2) {
             sprCurNet2 = sprNet2.update(iSpr, 210, 210);
         }
+        camera.update();
         v2balllocation = sprBall.update();
 
 
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
         if (isOverlappingBotNet1) {
             sprBall.setRotation(nMouseDx);
             polyBall.setRotation(nMouseDx);
@@ -219,7 +225,7 @@ public class ScrPlay implements Screen, InputProcessor {
         }
 
         if (isTouchingWall){
-            ballVelY /= 2;
+            ballVelY /= 3;
         }
         //if ball hits right side of window
         if (sprBall.getX() >= Gdx.graphics.getWidth()-sprBall.getWidth()/2 && ballVelX == -(nMouseDx/3)){
@@ -258,9 +264,9 @@ public class ScrPlay implements Screen, InputProcessor {
         }
 
         shaperenderer.setColor(Color.BLACK);
-        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,180); // black bar
+        shaperenderer.rect(5,camera.position.y - 90,10,180); // black bar
         shaperenderer.setColor(249/255f, 146/255f, 7/255f, 0.5f);
-        shaperenderer.rect(5,Gdx.graphics.getHeight()/2 - 90,10,nMouseDy2); //yellow bar
+        shaperenderer.rect(5,camera.position.y - 90,10,nMouseDy2); //yellow bar
     }
 
     @Override
