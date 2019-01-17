@@ -81,8 +81,7 @@ public class ScrPlay implements Screen, InputProcessor {
         if (nCount >=60){
             camera.position.set(Gdx.graphics.getWidth()/2, sprBall.getY() + 303, 0);
         }
-
-        if (isOverlappingBotNet1) {
+            if (isOverlappingBotNet1) {
             sprCurNet = sprNet1.update(iSpr, 210, 210);
         } else if (isOverlappingBotNet2) {
             sprCurNet2 = sprNet2.update(iSpr, 210, 210);
