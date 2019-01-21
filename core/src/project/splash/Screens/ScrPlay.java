@@ -129,23 +129,6 @@ public class ScrPlay implements Screen, InputProcessor {
         sprBall.setPosition(v2balllocation.x, v2balllocation.y);
         batch.end();
 
-        shaperenderer.begin(ShapeRenderer.ShapeType.Line);
-        shaperenderer.setProjectionMatrix(camera.combined);
-        shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
-        //hitboxes for first net
-        shaperenderer.setColor(Color.PINK);
-        shaperenderer.polygon(polyBotNet1.getTransformedVertices());
-        shaperenderer.setColor(Color.BROWN);
-        shaperenderer.polygon(polyTopNet1.getTransformedVertices());
-        //hitboxes for second net
-        shaperenderer.setColor(Color.PINK);
-        shaperenderer.polygon(polyBotNet2.getTransformedVertices());
-        shaperenderer.setColor(Color.BROWN);
-        shaperenderer.polygon(polyTopNet2.getTransformedVertices());
-        shaperenderer.setColor(Color.ORANGE);
-        shaperenderer.polygon(polyBall.getTransformedVertices());
-        shaperenderer.end();
-
         shaperenderer.begin(ShapeRenderer.ShapeType.Filled);
         shaperenderer.setProjectionMatrix(camera.combined);
         PowerBar();
