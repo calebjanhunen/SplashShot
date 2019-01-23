@@ -142,16 +142,13 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleHitDetection();
         HandleShooting();
         HandleWallHit();
-        
+
         shaperenderer.end();
         shaperenderer.begin(ShapeRenderer.ShapeType.Filled);
         shaperenderer.setProjectionMatrix(camera.combined);
         PowerBar();
         shaperenderer.end();
 
-        if (sprBall.getY() <= sprNet1.getY()){ //initiates game over screen
-            game.setScreen(new ScrGameOver(game));
-        }
     }
 
 
