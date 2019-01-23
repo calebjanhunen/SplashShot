@@ -118,7 +118,6 @@ public class ScrPlay implements Screen, InputProcessor {
             sprCurNet2.setRotation(nMouseDx);
         }
 
-
         sprBall.draw(batch);
         sprCurNet.draw(batch);
         sprCurNet2.draw(batch);
@@ -143,25 +142,8 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleHitDetection();
         HandleShooting();
         HandleWallHit();
-
-
-        shaperenderer.begin(ShapeRenderer.ShapeType.Line);
-        shaperenderer.setProjectionMatrix(camera.combined);
-        // shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
-        //hitboxes for first net
-//        shaperenderer.setColor(Color.PINK);
-//        shaperenderer.polygon(polyBotNet1.getTransformedVertices());
-//        shaperenderer.setColor(Color.BROWN);
-//        shaperenderer.polygon(polyTopNet1.getTransformedVertices());
-//        //hitboxes for second net
-//        shaperenderer.setColor(Color.PINK);
-//        shaperenderer.polygon(polyBotNet2.getTransformedVertices());
-//        shaperenderer.setColor(Color.BROWN);
-//        shaperenderer.polygon(polyTopNet2.getTransformedVertices());
-//        shaperenderer.setColor(Color.ORANGE);
-//        shaperenderer.polygon(polyBall.getTransformedVertices());
+        
         shaperenderer.end();
-
         shaperenderer.begin(ShapeRenderer.ShapeType.Filled);
         shaperenderer.setProjectionMatrix(camera.combined);
         PowerBar();
@@ -170,8 +152,7 @@ public class ScrPlay implements Screen, InputProcessor {
         if (sprBall.getY() <= sprNet1.getY()){ //initiates game over screen
             game.setScreen(new ScrGameOver(game));
         }
-
-        }
+    }
 
 
         public void HandleHitDetection () { // https://stackoverflow.com/questions/30554629/how-can-i-rotate-rectangles-in-libgdx  // https://github.com/TimCatana/gamegravity
@@ -283,9 +264,6 @@ public class ScrPlay implements Screen, InputProcessor {
             }
 
             shaperenderer.setColor(Color.BLACK);
-            shaperenderer.rect(5, (int) camera.position.y - 90, 10, 180); // black bar
-            shaperenderer.setColor(249 / 255f, 146 / 255f, 7 / 255f, 0.5f);
-            shaperenderer.rect(5, (int) camera.position.y - 90, 10, nMouseDy); //yellow bar
             shaperenderer.rect(5, camera.position.y - 90, 10, 180); // black bar
             shaperenderer.setColor(249 / 255f, 146 / 255f, 7 / 255f, 0.5f);
             shaperenderer.rect(5, camera.position.y - 90, 10, nMouseDy2); //yellow bar
