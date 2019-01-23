@@ -13,7 +13,7 @@ public class ScrMenu implements Screen, InputProcessor {
 
     SpriteBatch batch;
     Texture txtbackground;
-    Buttons btnPlay;
+    Buttons btnPlay, btnInfo;
     GamMain game;
 
     public ScrMenu(GamMain game) {
@@ -21,6 +21,7 @@ public class ScrMenu implements Screen, InputProcessor {
         batch = new SpriteBatch();
         txtbackground = new Texture("menu.png");
         btnPlay = new Buttons(150, 500, 300, 100, "playbutton.png");
+        btnInfo = new Buttons(150, 300, 300, 100, "infobutton.png");
     }
 
     @Override
@@ -33,6 +34,7 @@ public class ScrMenu implements Screen, InputProcessor {
         batch.begin();
         batch.draw(txtbackground, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         btnPlay.draw(batch);
+        btnInfo.draw(batch);
         HandleButtons();
         batch.end();
 
@@ -42,6 +44,9 @@ public class ScrMenu implements Screen, InputProcessor {
         if (Gdx.input.isTouched()) {             //Learning how to switch screens: https://github.com/weihanli101/Cygnus-Strike/blob/MasterWithMenu/core/src/com/mygdx/game/MyGame.java
             if (btnPlay.isMousedOver()) {
                 game.setScreen(new ScrPlay(game));
+            }
+            else if (btnInfo.isMousedOver()) {
+                game.setScreen(new ScrInfo(game));
             }
         }
     }
@@ -68,7 +73,7 @@ public class ScrMenu implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
+     txtbackground.dispose();
     }
 
     @Override

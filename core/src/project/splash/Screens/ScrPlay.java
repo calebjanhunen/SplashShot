@@ -132,7 +132,7 @@ public class ScrPlay implements Screen, InputProcessor {
         GlyphLayout glScore = new GlyphLayout(bmFontScore, sScore);
         bmFontScore.draw(batch, glScore, 25, camera.position.y + 486);
         batch.end();
-        
+
         shaperenderer.end();
         shaperenderer.begin(ShapeRenderer.ShapeType.Filled);
         shaperenderer.setProjectionMatrix(camera.combined);
