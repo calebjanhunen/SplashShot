@@ -3,13 +3,11 @@ package project.splash.Objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import project.splash.RandomXCoordinate;
 
 public class SprBall extends Sprite {
 
     Vector2 v2balllocation, v2ballvelocity, v2ballgravity;
-    RandomXCoordinate ranX1 = new RandomXCoordinate();
-    public int nX,nY,nW,nH, nranx = ranX1.getNranX1();
+    public int nX,nY,nW,nH;
 
     public SprBall(int _nX, int _nY, int _nW, int _nH) {
         super(new Texture("basketball.png"));
