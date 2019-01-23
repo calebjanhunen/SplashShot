@@ -56,7 +56,6 @@ public class ScrPlay implements Screen, InputProcessor {
 
         sprNet1 = new SprNet(190,100, 150, 150); //First Net
         sprNet2 = new SprNet(ranX1.getNranX2(),450, 150, 150); // Second Net
-
         sprBall  = new SprBall(0, 400, 43, 43);
         polyBall = new Polygon(new float[]{sprBall.getX(),sprBall.getY(),sprBall.getX() + sprBall.nW,sprBall.getY(),sprBall.getX() + sprBall.nW, sprBall.getY() + sprBall.nH,sprBall.getX(),sprBall.getY() + sprBall.nH});
         sprCurNet = new Sprite();
@@ -67,11 +66,8 @@ public class ScrPlay implements Screen, InputProcessor {
         polyBotNet1 = new Polygon(new float[]{sprNet1.getX(),sprNet1.getY() + 93,sprNet1.getX() + sprCurNet.getWidth(),sprNet1.getY() + 93,sprNet1.getX() + sprCurNet.getWidth(), sprNet1.getY() + sprCurNet.getHeight() - 8,sprNet1.getX(),sprNet1.getY() + sprCurNet.getHeight() - 8});
         polyTopNet1 = new Polygon(new float[]{sprNet1.getX() + 12,sprNet1.getY() + 141,sprNet1.getX() + sprCurNet.getWidth() - 12,sprNet1.getY() + 141,sprNet1.getX() + sprCurNet.getWidth() - 12, sprNet1.getY() + sprCurNet.getHeight()- 1,sprNet1.getX() + 12,sprNet1.getY() + sprCurNet.getHeight() - 1});
         //hitboxes for second net
-//        polyBotNet2 = new Polygon(new float[]{sprCurNet2.getX(),sprCurNet2.getY() + 93,sprCurNet2.getX() + sprCurNet2.getWidth(),sprCurNet2.getY() + 93,sprCurNet2.getX() + sprCurNet2.getWidth(), sprCurNet2.getY() + sprCurNet2.getHeight() - 8,sprCurNet2.getX(),sprCurNet2.getY() + sprCurNet2.getHeight() - 8});
-//        polyTopNet2 = new Polygon(new float[]{sprCurNet2.getX() + 12,sprCurNet2.getY() + 141,sprCurNet2.getX() + sprCurNet2.getWidth() - 12,sprCurNet2.getY() + 141,sprCurNet2.getX() + sprCurNet2.getWidth() - 12, sprCurNet2.getY() + sprCurNet2.getHeight()- 1,sprCurNet2.getX() + 12,sprCurNet2.getY() + sprCurNet2.getHeight() - 1});
         polyBotNet2 = new Polygon(new float[]{sprNet2.getX(),sprNet2.getY() + 93,sprNet2.getX() + sprCurNet2.getWidth(),sprNet2.getY() + 93,sprNet2.getX() + sprCurNet2.getWidth(), sprNet2.getY() + sprCurNet2.getHeight() - 8,sprNet2.getX(),sprNet2.getY() + sprCurNet2.getHeight() - 8});
         polyTopNet2 = new Polygon(new float[]{sprNet2.getX() + 12,sprNet2.getY() + 141,sprNet2.getX() + sprCurNet2.getWidth() - 12,sprNet2.getY() + 141,sprNet2.getX() + sprCurNet2.getWidth() - 12, sprNet2.getY() + sprCurNet2.getHeight()- 1,sprNet2.getX() + 12,sprNet2.getY() + sprCurNet2.getHeight() - 1});
-
         bmFontScore = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
         bmFontScore.setColor(Color.BLACK);
         sScore = "0";
@@ -136,24 +132,8 @@ public class ScrPlay implements Screen, InputProcessor {
         GlyphLayout glScore = new GlyphLayout(bmFontScore, sScore);
         bmFontScore.draw(batch, glScore, 25, camera.position.y + 486);
         batch.end();
-
-        shaperenderer.begin(ShapeRenderer.ShapeType.Line);
-        shaperenderer.setProjectionMatrix(camera.combined);
-        shaperenderer.rect(sprBall.getWidth() / 2, sprBall.getHeight(), 10 ,10);
-        //hitboxes for first net
-        shaperenderer.setColor(Color.PINK);
-        shaperenderer.polygon(polyBotNet1.getTransformedVertices());
-        shaperenderer.setColor(Color.BROWN);
-        shaperenderer.polygon(polyTopNet1.getTransformedVertices());
-        //hitboxes for second net
-        shaperenderer.setColor(Color.PINK);
-        shaperenderer.polygon(polyBotNet2.getTransformedVertices());
-        shaperenderer.setColor(Color.BROWN);
-        shaperenderer.polygon(polyTopNet2.getTransformedVertices());
-        shaperenderer.setColor(Color.ORANGE);
-        shaperenderer.polygon(polyBall.getTransformedVertices());
+        
         shaperenderer.end();
-
         shaperenderer.begin(ShapeRenderer.ShapeType.Filled);
         shaperenderer.setProjectionMatrix(camera.combined);
         PowerBar();
@@ -162,10 +142,6 @@ public class ScrPlay implements Screen, InputProcessor {
         HandleHitDetection();
         HandleShooting();
         HandleWallHit();
-
-        //System.out.println(ranX1.getNranX1() + " " + sprCurNet.getX() + " " + sprBall.getX());
-        //System.out.println(sprCurNet2.getX() + " " + sprCurNet2.getY());
-//        System.out.println((v2balllocation.y+1) - v2balllocation.y);
 
     }
 
@@ -267,14 +243,6 @@ public class ScrPlay implements Screen, InputProcessor {
         shaperenderer.rect(5,(int)camera.position.y - 90,10,180); // black bar
         shaperenderer.setColor(249/255f, 146/255f, 7/255f, 0.5f);
         shaperenderer.rect(5,(int)camera.position.y - 90,10,nMouseDy); //yellow bar
-    }
-
-    public void HandleCamera(){
-
-//        if (v2balllocation.y == camera.position.y+50){
-//            camera.position.y -= 5;
-//        }
-
     }
 
     @Override
